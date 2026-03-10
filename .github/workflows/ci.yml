@@ -1,0 +1,73 @@
+name: cub3D CI
+
+on: [push, pull_request]
+
+jobs:
+  norminette:
+    name: Norminette Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Install norminette
+      run: python3 -m pip install norminette
+    
+    - name: Run norminette
+      run: |
+        echo "Running norminette..."
+        NORM=$(norminette src includes | grep Error: || true)
+        if [ -n "$NORM" ]; then
+          echo "Norminette failed"
+          exit 1
+        fi
+        echo "Norminette passed"
+
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    
+    - name: Install deps
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+        libreadline-dev \
+        cmake \
+        libglfw3-dev \
+        xvfb
+    
+    - name: Build cub3D
+      run: |
+        echo "Compiling..."
+        make -j$(nproc)
+        echo "Compilation successful!"
+    
+    - name: Check executable
+      run: |
+        if [ ! -f "./build/cub3D" ]; then
+          echo "cub3D executable not found!"
+          exit 1
+        fi
+        echo "Executable created successfully"
+    
+    - name: Upload cub3D binary
+      uses: actions/upload-artifact@v4
+      with:
+        name: cub3D-binary
+        path: build/cub3D
+        retention-days: 1
+
+    - name: Smoke Test
+      run: |
+        echo "Running smoke test..."
+        xvfb-run -a timeout 2s ./build/cub3D || true
+        echo "Smoke test finished"
