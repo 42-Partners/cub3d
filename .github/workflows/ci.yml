@@ -45,7 +45,7 @@ jobs:
         libglfw3-dev \
         xvfb
     
-    - name: Build cub3D
+    - name: Build cub3b
       run: |
         echo "Compiling..."
         make -j$(nproc)
@@ -53,8 +53,8 @@ jobs:
     
     - name: Check executable
       run: |
-        if [ ! -f "./build/cub3D" ]; then
-          echo "cub3D executable not found!"
+        if [ ! -f "./build/cub3b" ]; then
+          echo "cub3d executable not found!"
           exit 1
         fi
         echo "Executable created successfully"
@@ -62,12 +62,12 @@ jobs:
     - name: Upload cub3D binary
       uses: actions/upload-artifact@v4
       with:
-        name: cub3D-binary
-        path: build/cub3D
+        name: cub3d-binary
+        path: build/cub3d
         retention-days: 1
 
     - name: Smoke Test
       run: |
         echo "Running smoke test..."
-        xvfb-run -a timeout 2s ./build/cub3D || true
+        xvfb-run -a timeout 2s ./build/cub3d || true
         echo "Smoke test finished"
