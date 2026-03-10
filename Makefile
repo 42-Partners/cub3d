@@ -1,4 +1,4 @@
-NAME			:= build/cub3D
+NAME			:= build/cub3d
 BUILD_DIR		:= build
 
 CC				:= cc
@@ -49,8 +49,8 @@ $(LIBFT)/libft.a:
 
 $(LIBMLX)/build/libmlx42.a:
 	@echo "$(YELLOW)📚 Building MLX42...$(RESET)"
-	@cmake -S $(LIBMLX) -B $(LIBMLX)/build
-	@cmake --build $(LIBMLX)/build -j4 --silent
+	@cmake -S $(LIBMLX) -B $(LIBMLX)/build > /dev/null
+	@cmake --build $(LIBMLX)/build -j4 > /dev/null
 
 # Rules
 all: $(NAME)
