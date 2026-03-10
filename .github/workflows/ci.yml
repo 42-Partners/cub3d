@@ -53,7 +53,7 @@ jobs:
     
     - name: Check executable
       run: |
-        if [ ! -f "./build/cub3b" ]; then
+        if [ ! -f "./build/cub3d" ]; then
           echo "cub3d executable not found!"
           exit 1
         fi
