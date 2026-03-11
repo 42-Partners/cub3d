@@ -30,6 +30,7 @@ typedef struct s_game
 void	init_game(t_game *game);
 
 void	close_window(void *param);
+void	handle_key(mlx_key_data_t keydata, void *param);
 
 int		open_map(t_game *game, char *filename);
 
