@@ -16,7 +16,8 @@ INCLUDES		:= $(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 
 # Files
 SRC_DIR			:= src
-SRC				:= main.c
+SRC				:= main.c \
+					validate/validate_arg.c
 
 OBJ				:= $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
 DEP				:= $(OBJ:.o=.d)
@@ -56,7 +57,7 @@ $(LIBMLX)/build/libmlx42.a:
 all: $(NAME)
 
 valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./$(NAME) maps/iron_maiden.cub
 
 clean:
 	@rm -rf $(BUILD_DIR)
@@ -75,6 +76,9 @@ norminette:
 	@echo "$(YELLOW)🧠 Running norminette...$(RESET)"
 	@norminette src includes
 
+game: $(NAME)
+	./build/cub3d maps/iron_maiden.cub
+
 -include $(DEP)
 
-.PHONY: all clean fclean re norminette valgrind
+.PHONY: all clean fclean re norminette valgrind game

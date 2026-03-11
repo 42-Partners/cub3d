@@ -14,7 +14,12 @@
 
 int	main(int argc, char *argv[])
 {
-	(void)argc;
-	(void)argv;
+	if (argc != 2)
+	{
+		printf("Wrong usage!\n");
+		return (1);
+	}
+	if (validate_arg(argv[1]))
+		return (1);
 	printf("Hello World!\n");
 }
