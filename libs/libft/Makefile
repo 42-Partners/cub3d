@@ -85,9 +85,7 @@ SRC :=	src/basic/ft_isalnum.c \
 OBJ := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC))
 
 $(NAME): $(OBJ)
-	@echo "$(YELLOW)🔧 Linking objects...$(RESET)"
 	@ar -crs $(NAME) $(OBJ)
-	@echo "$(GREEN)✅ $(NAME) built successfully$(RESET)"
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
@@ -98,11 +96,9 @@ all: $(NAME)
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@echo "$(RED)🧴 Object files removed.$(RESET)"
 
 fclean: clean
 	@rm -f $(NAME)
-	@echo "$(RED)🧼 Everything cleaned$(RESET)"
 
 re: fclean all
 
