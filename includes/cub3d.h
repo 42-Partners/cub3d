@@ -32,7 +32,7 @@ void	init_game(t_game *game);
 void	close_window(void *param);
 void	handle_key(mlx_key_data_t keydata, void *param);
 
-int		open_map(t_game *game, char *filename);
+void	validate_input(t_game *game, int argc, char *filename);
 
 void	cleanup(t_game *game);
 void	error_exit(t_game *game, char *msg);

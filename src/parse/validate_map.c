@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cleanup.c                                          :+:      :+:    :+:   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/11 16:18:39 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/11 18:55:02 by devrafaelly      ###   ########.fr       */
+/*   Created: 2026/03/11 19:05:16 by devrafaelly       #+#    #+#             */
+/*   Updated: 2026/03/11 19:14:33 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-#include <stdlib.h>
+#include <fcntl.h>
 
-void	cleanup(t_game *game)
+int	validate_map(t_game *game, char *filename)
 {
-	if (game->mlx)
-		mlx_terminate(game->mlx);
-	return ;
-}
+	int	map_fd;
 
-void	error_exit(t_game *game, char *msg)
-{
-	if (msg)
-		printf("Error\n%s\n", msg);
-	else
-		printf("Error\n%s\n", mlx_strerror(mlx_get_errno()));
-	cleanup(game);
-	exit(EXIT_FAILURE);
+	map_fd = open(filename, O_RDONLY);
+	if (map_fd == -1)
+		error_exit(game, "Could not open the file.");
+	return (map_fd);
 }
