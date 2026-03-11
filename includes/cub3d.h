@@ -25,7 +25,7 @@
 typedef struct s_game
 {
 	mlx_t	*mlx;
-} t_game;
+}	t_game;
 
 void	init_game(t_game *game);
 
