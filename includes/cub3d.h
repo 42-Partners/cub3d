@@ -18,23 +18,45 @@
 
 # include <stdio.h>
 
-# define WIDTH 800
+# define WIDTH 1200
 # define HEIGHT 800
 # define RESIZE true
 
+typedef struct s_player
+{
+	double	pos_x;
+	double	pos_y;
+	double	dir_x;
+	double	dir_y;
+	double	move_speed;
+	double	rot_speed;
+}	t_player;
+
+typedef struct s_input
+{
+	bool	w;
+	bool	a;
+	bool	s;
+	bool	d;
+	bool	left;
+	bool	right;
+}	t_input;
+
 typedef struct s_game
 {
-	mlx_t	*mlx;
+	mlx_t		*mlx;
+	t_player	player;
+	t_input		input;
 }	t_game;
 
 void	init_game(t_game *game);
 
-void	close_window(void *param);
 void	handle_key(mlx_key_data_t keydata, void *param);
 
 void	validate_input(t_game *game, int argc, char *filename);
 
 void	cleanup(t_game *game);
+void	close_window(void *param);
 void	error_exit(t_game *game, char *msg);
 
 #endif
