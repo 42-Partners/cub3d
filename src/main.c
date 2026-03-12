@@ -12,22 +12,12 @@
 
 #include "cub3d.h"
 
-// int	main(int argc, char *argv[])
-// {
-// 	if (argc != 2)
-// 	{
-// 		printf("Wrong usage!\n");
-// 		return (1);
-// 	}
-// 	if (validate_arg(argv[1]))
-// 		return (1);
-// 	printf("Hello World!\n");
-// }
-
-int	main(void)
+int	main(int argc, char *argv[])
 {
 	t_game	game;
 
+	game.mlx = NULL;
+	validate_input(&game, argc, argv[1]);
 	init_game(&game);
 	return (0);
 }

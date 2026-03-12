@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event_hooks.c                                      :+:      :+:    :+:   */
+/*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/11 16:44:09 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/11 18:21:14 by devrafaelly      ###   ########.fr       */
+/*   Created: 2026/03/11 19:05:16 by devrafaelly       #+#    #+#             */
+/*   Updated: 2026/03/11 19:14:33 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	close_window(void *param)
-{
-	t_game	*game;
+#include <fcntl.h>
 
-	game = (t_game *)param;
-	cleanup(game);
-	exit(EXIT_SUCCESS);
-}
-
-void	handle_key(mlx_key_data_t keydata, void *param)
+int	validate_map(t_game *game, char *filename)
 {
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
-		close_window(param);
+	int	map_fd;
+
+	map_fd = open(filename, O_RDONLY);
+	if (map_fd == -1)
+		error_exit(game, "Could not open the file.");
+	return (map_fd);
 }

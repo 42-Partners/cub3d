@@ -19,7 +19,8 @@ SRC_DIR			:= 	src
 SRC				:= 	main.c \
 					init/init.c \
 					hooks/event_hooks.c \
-					parse/validate_arg.c \
+					parse/validate_input.c \
+					parse/validate_map.c \
 					utils/cleanup.c
 
 OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
