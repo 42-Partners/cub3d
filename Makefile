@@ -1,36 +1,39 @@
-NAME			:= build/cub3d
-BUILD_DIR		:= build
+NAME			:=	build/cub3d
+BUILD_DIR		:=	build
 
-CC				:= cc
-CFLAGS			:= -Wextra -Wall -Werror -MMD -MP -Wunreachable-code -O0 -g
-LDFLAGS			:= -ldl -lglfw -pthread -lm
+CC				:=	cc
+CFLAGS			:=	-Wextra -Wall -Werror -MMD -MP -Wunreachable-code -O0 -g
+LDFLAGS			:=	-ldl -lglfw -pthread -lm
 
 # Libraries
-LIBFT			:= ./libs/libft
-LIBMLX			:= ./libs/MLX42
-LIBS			:= $(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a 
+LIBFT			:=	./libs/libft
+LIBMLX			:=	./libs/MLX42
+LIBS			:=	$(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a 
 
 # Directories
-INCLUDE_DIRS	:= includes $(LIBFT)/includes $(LIBMLX)/include
-INCLUDES		:= $(foreach dir,$(INCLUDE_DIRS),-I$(dir))
+INCLUDE_DIRS	:=	includes $(LIBFT)/includes $(LIBMLX)/include
+INCLUDES		:=	$(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 
 # Files
-SRC_DIR			:= src
-SRC				:= main.c \
-					validate/validate_arg.c
+SRC_DIR			:= 	src
+SRC				:= 	main.c \
+					init/init.c \
+					hooks/event_hooks.c \
+					parse/validate_arg.c \
+					utils/cleanup.c
 
-OBJ				:= $(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
-DEP				:= $(OBJ:.o=.d)
+OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
+DEP				:=	$(OBJ:.o=.d)
 
-TOTAL_FILES		:= $(words $(SRC))
-COMPILED		:= 0
+TOTAL_FILES		:=	$(words $(SRC))
+COMPILED		:=	0
 
 # Colors
-GREEN 			:= \033[0;32m
-YELLOW			:= \033[0;33m
-RED				:= \033[0;31m
-BLUE			:= \033[0;34m
-RESET			:= \033[0m
+GREEN 			:=	\033[0;32m
+YELLOW			:=	\033[0;33m
+RED				:=	\033[0;31m
+BLUE			:=	\033[0;34m
+RESET			:=	\033[0m
 
 $(NAME): $(OBJ) $(LIBS)
 	@mkdir -p $(dir $@)

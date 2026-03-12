@@ -10,23 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "cub3d.h"
+
 #include <fcntl.h>
 
-int	validate_arg(char *filename)
+int	open_map(t_game *game, char *filename)
 {
 	char	*dot;
 	int		map_fd;
 
 	dot = ft_strrchr(filename, '.');
-	if (ft_strlen(dot) != 4 || !*(ft_strnstr(dot, ".cub", 5)))
-	{
-		ft_printf("Invalid file format.\n");
-		return (1);
-	}
+	if (!dot || ft_strncmp(dot, ".cub", 5) != 0)
+		error_exit(game, "Invalid file format.");
 	map_fd = open(filename, O_RDONLY);
 	if (map_fd == -1)
-		ft_printf("Could not open the file!\n");
-	close(map_fd);
-	return (0);
+		error_exit(game, "Could not open the file.");
+	return (map_fd);
 }

@@ -13,9 +13,27 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <stdio.h>
+# include "libft.h"
 # include "MLX42/MLX42.h"
 
-int validate_arg(char *filename);
+# include <stdio.h>
+
+# define WIDTH 800
+# define HEIGHT 800
+# define RESIZE true
+
+typedef struct s_game
+{
+	mlx_t	*mlx;
+}	t_game;
+
+void	init_game(t_game *game);
+
+void	close_window(void *param);
+
+int		open_map(t_game *game, char *filename);
+
+void	cleanup(t_game *game);
+void	error_exit(t_game *game, char *msg);
 
 #endif
