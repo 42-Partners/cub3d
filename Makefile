@@ -18,10 +18,12 @@ INCLUDES		:=	$(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 SRC_DIR			:= 	src
 SRC				:= 	main.c \
 					init/init.c \
-					hooks/key_hooks.c \
-					hooks/player_keys.c \
 					parse/validate_input.c \
 					parse/validate_map.c \
+					render/render.c \
+					render/draw.c \
+					hooks/key_hooks.c \
+					hooks/player_keys.c \
 					utils/cleanup.c
 
 OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))

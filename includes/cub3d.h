@@ -20,7 +20,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define RESIZE true
+# define RESIZE false
 
 typedef struct s_player
 {
@@ -44,16 +44,21 @@ typedef struct s_input
 
 typedef struct s_game
 {
-	mlx_t		*mlx;
-	t_player	player;
-	t_input		input;
+	t_player		player;
+	t_input			input;
+
+	mlx_t			*mlx;
+	mlx_image_t		*img;
 }	t_game;
 
 void	init_game(t_game *game);
 
-void	handle_key(mlx_key_data_t keydata, void *param);
-
 void	validate_input(t_game *game, int argc, char *filename);
+
+void	render(void *param);
+void	render_frame(t_game *game);
+
+void	handle_key(mlx_key_data_t keydata, void *param);
 
 void	cleanup(t_game *game);
 void	close_window(void *param);
