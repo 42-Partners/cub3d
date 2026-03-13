@@ -18,7 +18,8 @@ INCLUDES		:=	$(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 SRC_DIR			:= 	src
 SRC				:= 	main.c \
 					init/init.c \
-					hooks/event_hooks.c \
+					hooks/key_hooks.c \
+					hooks/player_keys.c \
 					parse/validate_input.c \
 					parse/validate_map.c \
 					utils/cleanup.c
