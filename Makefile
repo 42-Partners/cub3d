@@ -64,7 +64,7 @@ $(LIBMLX)/build/libmlx42.a:
 all: $(NAME)
 
 valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./$(NAME) maps/iron_maiden.cub
+	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=valgrind.supp -s ./$(NAME) maps/iron_maiden.cub
 
 clean:
 	@rm -rf $(BUILD_DIR)
