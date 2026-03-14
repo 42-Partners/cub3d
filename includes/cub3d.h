@@ -25,6 +25,8 @@
 typedef struct s_game
 {
 	mlx_t	*mlx;
+	int		floor_color[3];
+	int		celing_color[3];
 }	t_game;
 
 void	init_game(t_game *game);
