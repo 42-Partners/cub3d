@@ -18,10 +18,13 @@ INCLUDES		:=	$(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 SRC_DIR			:= 	src
 SRC				:= 	main.c \
 					init/init.c \
-					hooks/event_hooks.c \
 					parse/validate_config.c \
 					parse/validate_map.c \
 					parse/validate_input.c \
+					render/render.c \
+					render/draw.c \
+					hooks/key_hooks.c \
+					hooks/player_keys.c \
 					utils/cleanup.c
 
 OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
@@ -62,7 +65,7 @@ $(LIBMLX)/build/libmlx42.a:
 all: $(NAME)
 
 valgrind: $(NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes ./$(NAME) maps/iron_maiden.cub
+	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes --suppressions=valgrind.supp -s ./$(NAME) maps/iron_maiden.cub
 
 clean:
 	@rm -rf $(BUILD_DIR)

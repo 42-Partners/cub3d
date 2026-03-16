@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   player_keys.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/11 16:06:10 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/13 18:25:49 by devrafaelly      ###   ########.fr       */
+/*   Created: 2026/03/12 19:46:26 by devrafaelly       #+#    #+#             */
+/*   Updated: 2026/03/12 19:57:05 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_game(t_game *game)
+void	handle_movement(t_game *game)
 {
-	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", RESIZE);
-	if (!game->mlx)
-		error_exit(game, NULL);
-	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->img)
-		error_exit(game, NULL);
-	mlx_image_to_window(game->mlx, game->img, 0, 0);
-	mlx_close_hook(game->mlx, close_window, game);
-	mlx_key_hook(game->mlx, handle_key, game);
-	mlx_loop_hook(game->mlx, render, game);
+	if (game->input.a)
+		return ;
+	else if (game->input.d)
+		return ;
+	else if (game->input.s)
+		return ;
+	else if (game->input.w)
+		return ;
+}
+
+void	handle_rotation(t_game *game)
+{
+	if (game->input.right)
+		return ;
+	else if (game->input.left)
+		return ;
 }

@@ -1,0 +1,48 @@
+{
+   nvidia_driver
+   Memcheck:Addr8
+   ...
+   obj:*/libnvwgf2umx.so
+}
+{
+   libLLVM_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:*/libLLVM*.so*
+}
+{
+   glfw_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:*/libglfw.so*
+}
+{
+   libdxcore_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:*/libdxcore.so*
+}
+{
+   libstdcxx_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:*/libstdc++.so*
+}
+{
+   libX11_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:*/libX11.so*
+}
+{
+   nvidia_leak
+   Memcheck:Leak
+   match-leak-kinds: all
+   ...
+   obj:*/libnvwgf2umx.so
+}
