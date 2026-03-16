@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/11 16:06:10 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/13 18:25:49 by devrafaelly      ###   ########.fr       */
+/*   Created: 2026/03/13 18:06:31 by devrafaelly       #+#    #+#             */
+/*   Updated: 2026/03/13 18:12:23 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_game(t_game *game)
+static void	clear_frame(t_game *game)
 {
-	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", RESIZE);
-	if (!game->mlx)
-		error_exit(game, NULL);
-	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-	if (!game->img)
-		error_exit(game, NULL);
-	mlx_image_to_window(game->mlx, game->img, 0, 0);
-	mlx_close_hook(game->mlx, close_window, game);
-	mlx_key_hook(game->mlx, handle_key, game);
-	mlx_loop_hook(game->mlx, render, game);
+	ft_memset(game->img->pixels, 0,
+		game->img->width * game->img->height * sizeof(uint32_t));
+}
+
+void	render(void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+	clear_frame(game);
+	render_frame(game);
 }
