@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/14 02:37:04 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/16 04:25:09 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int	validate_line(char *line, t_game *game, bool checks[6])
 		check_num = 4;
 	else if (ft_strncmp("C", line, 1) == 0)
 		check_num = 5;
-	else if (ft_strcmp("\n", line) != -3)
+	else if (ft_strcmp("\n", line) != 0)
 		return (-1);
 	if (checks[check_num])
 		return (-1);

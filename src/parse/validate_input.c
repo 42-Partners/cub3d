@@ -30,6 +30,7 @@ void	validate_input(t_game *game, int argc, char *filename)
 		error_exit(game, "Could not open the file.");
 	if (!validate_config(map_fd, game))
 		error_exit(game, ".cub file configuration is not correctly definined.");
+	if (!validate_map(map_fd, game))
+		error_exit(game, ".cub file	map definition is not correct.");
 }
-	// if (!validate_map(map_fd, game))
-	// 	error_exit(game, ".cub file map definition is not correct.");
+

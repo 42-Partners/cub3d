@@ -27,6 +27,7 @@ SRC :=	src/basic/ft_isalnum.c \
 	src/basic/ft_tolower.c \
 	src/basic/ft_isfloat.c \
 	src/basic/ft_atoi.c \
+	src/basic/ft_realloc.c \
 	src/basic/ft_atof.c \
 	src/basic/ft_atol.c \
 	src/basic/ft_strcmp.c \
