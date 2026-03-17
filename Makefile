@@ -19,7 +19,6 @@ SRC_DIR			:= 	src
 SRC				:= 	main.c \
 					init/init.c \
 					parse/validate_config.c \
-					parse/validate_map.c \
 					parse/validate_input.c \
 					render/render.c \
 					render/draw.c \

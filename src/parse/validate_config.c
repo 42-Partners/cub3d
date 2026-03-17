@@ -6,14 +6,14 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/16 04:25:09 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/17 17:49:21 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static bool	check_all(bool checks[6]);
-static int	validate_line(char *line, t_game *game, bool checks[6]);
+static bool	validate_line(char *line, t_game *game, bool checks[6]);
 
 /* bool array checks every config following the table below: */
 // checks[0] = NO;
@@ -39,18 +39,18 @@ int	validate_config(int map_fd, t_game *game)
 		aux = ft_strtrim(line, " \t");
 		free(line);
 		if (!aux)
-		{
+			error_exit(game, "Malloc.");
+		if (!validate_line(aux, game, checks))
 			return (false);
-		}
-		if (validate_line(aux, game, checks) == -1)
-			return (false);
+		free(aux);
 		line = get_next_line(map_fd);
 	}
+	free(line);
 	return (check_all(checks));
 }
 
 /* start parsing here */
-static int	validate_line(char *line, t_game *game, bool checks[6])
+static bool	validate_line(char *line, t_game *game, bool checks[6])
 {
 	int	check_num;
 
@@ -68,14 +68,14 @@ static int	validate_line(char *line, t_game *game, bool checks[6])
 		check_num = 4;
 	else if (ft_strncmp("C", line, 1) == 0)
 		check_num = 5;
-	else if (ft_strcmp("\n", line) != 0)
-		return (-1);
-	if (checks[check_num])
-		return (-1);
-	else if (check_num != -1)
-		checks[check_num] = true;
+	else if (*line == '\n')
+		return (true);
 	else
 		return (false);
+	if (checks[check_num])
+		return (false);
+	else if (check_num != -1)
+		checks[check_num] = true;
 	return (true);
 }
 
