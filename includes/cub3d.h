@@ -44,10 +44,12 @@ typedef struct s_input
 
 typedef struct s_game
 {
+	mlx_t			*mlx;
+	int				floor_color[3];
+	int				celing_color[3];
+	char			**map;
 	t_player		player;
 	t_input			input;
-
-	mlx_t			*mlx;
 	mlx_image_t		*img;
 }	t_game;
 
