@@ -86,6 +86,20 @@ norminette:
 game: $(NAME)
 	./build/cub3d maps/iron_maiden.cub
 
+retro: $(NAME)
+	./build/cub3d maps/retr0_dungeon.cub
+
+invalid:  $(NAME)
+	@for file in maps/invalid/*; do \
+		echo -n "$(YELLOW)Running invalid file "; \
+		echo -n $$file; \
+		echo ": $(RESET)"; \
+		./build/cub3d $$file; \
+		if [ $$? -ne 1 ]; then \
+			echo "$(RED)>> Invalid file didn't return an error! ($$file) $(RESET)"; \
+		fi; \
+	done
+
 -include $(DEP)
 
-.PHONY: all clean fclean re norminette valgrind game
+.PHONY: all clean fclean re norminette valgrind game invalid retro
