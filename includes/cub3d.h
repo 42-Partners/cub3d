@@ -64,6 +64,8 @@ typedef struct s_game
 void	init_game(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename);
+void	validate_config(int map_fd, t_game *game);
+void	validate_map(t_game *game);
 
 void	render(void *param);
 void	render_frame(t_game *game);

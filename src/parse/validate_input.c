@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int			validate_config(int map_fd, t_game *game);
+void		validate_config(int map_fd, t_game *game);
 static void	parse_map(int map_fd, t_game *game);
 static void	fill_map(t_game *game, char *line, int map_fd);
 static bool	add_row(t_game *game, char *row);
@@ -30,10 +30,9 @@ void	validate_input(t_game *game, int argc, char *filename)
 	map_fd = open(filename, O_RDONLY);
 	if (map_fd == -1)
 		error_exit(game, "Could not open the file");
-	if (!validate_config(map_fd, game))
-		error_exit(game, ".cub file configuration is not correctly definined");
+	validate_config(map_fd, game);
 	parse_map(map_fd, game);
-	close (map_fd);
+	close(map_fd);
 }
 
 static void	parse_map(int map_fd, t_game *game)
@@ -66,7 +65,7 @@ static void	fill_map(t_game *game, char *line, int map_fd)
 		if (*trimmed == '\0')
 		{
 			free(trimmed);
-			error_exit(game, "Invalid map");
+			break ;
 		}
 		else if (!add_row(game, trimmed))
 			error_exit(game, "Malloc error");

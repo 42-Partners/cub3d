@@ -6,14 +6,14 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/18 19:15:00 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/19 19:50:21 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static bool	check_all(bool checks[6]);
-static bool	validate_line(char *line, t_game *game, bool checks[6]);
+static bool	validate_line(char *line, bool checks[6]);
 
 /* bool array checks every config following the table below: */
 // checks[0] = NO;
@@ -23,7 +23,7 @@ static bool	validate_line(char *line, t_game *game, bool checks[6]);
 // checks[4] = floor;
 // checks[5] = ceeling;
 // REMINDER: free all alocated configs when line 56 becomes true
-int	validate_config(int map_fd, t_game *game)
+void	validate_config(int map_fd, t_game *game)
 {
 	char	*line;
 	char	*aux;
@@ -36,17 +36,18 @@ int	validate_config(int map_fd, t_game *game)
 	line = get_next_line(map_fd);
 	while (line && !check_all(checks))
 	{
-		aux = ft_strtrim(line, " \t");
+		aux = ft_strtrim(line, " \t\n");
 		free(line);
 		if (!aux)
 			error_exit(game, "Malloc error");
 		if (!validate_line(aux, checks))
-			return (false);
+			error_exit(game, "Invalid configuration");
 		free(aux);
 		line = get_next_line(map_fd);
 	}
 	free(line);
-	return (check_all(checks));
+	if (!check_all(checks))
+        error_exit(game, "Incomplete configuration");
 }
 
 /* start parsing here */
@@ -67,14 +68,13 @@ static bool	validate_line(char *line, bool checks[6])
 		check_num = 4;
 	else if (ft_strncmp("C", line, 1) == 0)
 		check_num = 5;
-	else if (*line == '\n')
+	else if (*line == '\0')
 		return (true);
 	else
 		return (false);
 	if (checks[check_num])
 		return (false);
-	else if (check_num != -1)
-		checks[check_num] = true;
+	checks[check_num] = true;
 	return (true);
 }
 

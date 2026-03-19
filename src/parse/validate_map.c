@@ -6,17 +6,17 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 17:37:19 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/19 19:05:33 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/19 20:14:20 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static int	validate_walls(t_game *game, int i);
-static int	validate_row(t_game *game, int *spawn, int i);
+static void	validate_walls(t_game *game, int i);
+static void	validate_row(t_game *game, int *spawn, int i);
 static int	validate_char(char c);
 
-int	validate_map(t_game *game)
+void	validate_map(t_game *game)
 {
 	int		spawn;
 	int		i;
@@ -25,39 +25,39 @@ int	validate_map(t_game *game)
 	i = 0;
 	while (game->map.map[i])
 	{
-		if (!validate_walls(game, i))
-			return (0);
-		if (!validate_row(game, &spawn, i))
-			return (0);
+		validate_walls(game, i);
+		validate_row(game, &spawn, i);
 		i++;
 	}
 	if (spawn != 1)
-		return (0);
-	return (1);
+		error_exit(game, "Invalid map");
 }
 
-static int	validate_walls(t_game *game, int i)
+static void	validate_walls(t_game *game, int i)
 {
 	char	*line;
 	int		len;
+	int		j;
 
 	line = game->map.map[i];
 	len = ft_strlen(line);
+	j = 0;
+	while (ft_isspace(line[j]))
+		j++;
 	if (i == 0 || i == (game->map.rows - 1))
 	{
-		while (line)
+		while (line[j])
 		{
-			if (*line != '1')
-				return (0);
-			line++;
+			if (line[j] != '1')
+				error_exit(game, "Invalid map");
+			j++;
 		}
 	}
-	else if (line[0] != '1' || line[len - 1] != '1')
-		return (0);
-	return (1);
+	else if (line[j] != '1' || line[len - 1] != '1')
+		error_exit(game, "Invalid map");
 }
 
-static int	validate_row(t_game *game, int *spawn, int i)
+static void	validate_row(t_game *game, int *spawn, int i)
 {
 	char	c;
 	int		j;
@@ -67,7 +67,7 @@ static int	validate_row(t_game *game, int *spawn, int i)
 	{
 		c = game->map.map[i][j];
 		if (!validate_char(c))
-			return (0);
+			error_exit(game, "Invalid map");
 		if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		{
 			game->player.pos_x = i;
@@ -77,7 +77,6 @@ static int	validate_row(t_game *game, int *spawn, int i)
 		}
 		j++;
 	}
-	return (1);
 }
 
 static int	validate_char(char c)

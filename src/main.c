@@ -18,6 +18,7 @@ int	main(int argc, char *argv[])
 
 	ft_memset(&game, 0, sizeof(t_game));
 	validate_input(&game, argc, argv[1]);
+	validate_map(&game);
 	init_game(&game);
 	mlx_loop(game.mlx);
 	return (0);
