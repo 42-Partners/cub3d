@@ -28,9 +28,17 @@ typedef struct s_player
 	double	pos_y;
 	double	dir_x;
 	double	dir_y;
+	double	orientation;
 	double	move_speed;
 	double	rot_speed;
 }	t_player;
+
+typedef struct s_map
+{
+	char	**map;
+	int		rows;
+	int		cols;
+}	t_map;
 
 typedef struct s_input
 {
@@ -47,7 +55,7 @@ typedef struct s_game
 	mlx_t			*mlx;
 	int				floor_color[3];
 	int				celing_color[3];
-	char			**map;
+	t_map			map;
 	t_player		player;
 	t_input			input;
 	mlx_image_t		*img;

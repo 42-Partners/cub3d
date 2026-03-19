@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_config.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/17 17:49:21 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/18 19:15:00 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ static bool	validate_line(char *line, t_game *game, bool checks[6]);
 // REMINDER: free all alocated configs when line 56 becomes true
 int	validate_config(int map_fd, t_game *game)
 {
-	bool	checks[6];
-	int		i;
 	char	*line;
 	char	*aux;
+	bool	checks[6];
+	int		i;
 
 	i = 0;
 	while (i < 6)
@@ -39,8 +39,8 @@ int	validate_config(int map_fd, t_game *game)
 		aux = ft_strtrim(line, " \t");
 		free(line);
 		if (!aux)
-			error_exit(game, "Malloc.");
-		if (!validate_line(aux, game, checks))
+			error_exit(game, "Malloc error");
+		if (!validate_line(aux, checks))
 			return (false);
 		free(aux);
 		line = get_next_line(map_fd);
@@ -50,11 +50,10 @@ int	validate_config(int map_fd, t_game *game)
 }
 
 /* start parsing here */
-static bool	validate_line(char *line, t_game *game, bool checks[6])
+static bool	validate_line(char *line, bool checks[6])
 {
 	int	check_num;
 
-	(void)game;
 	check_num = -1;
 	if (ft_strncmp("SO", line, 2) == 0)
 		check_num = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:18:39 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/17 17:53:58 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/19 18:25:33 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	cleanup(t_game *game)
 {
 	if (game->mlx)
 		mlx_terminate(game->mlx);
-	free(game->map);
+	free(game->map.map);
 }
 
 void	close_window(void *param)
