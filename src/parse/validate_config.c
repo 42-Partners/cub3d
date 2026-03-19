@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/19 19:50:21 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/19 20:58:09 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	validate_config(int map_fd, t_game *game)
 	}
 	free(line);
 	if (!check_all(checks))
-        error_exit(game, "Incomplete configuration");
+		error_exit(game, "Incomplete configuration");
 }
 
 /* start parsing here */
