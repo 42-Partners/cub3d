@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:03:36 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/13 18:24:03 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/19 04:43:21 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	render_frame(t_game *game)
 	uint32_t	y;
 	uint32_t	color;
 
-	color = 0xFF9A56FF;
+	color = game->floor_color;
 	x = 0;
 	while (x < WIDTH)
 	{

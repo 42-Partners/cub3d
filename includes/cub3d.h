@@ -45,8 +45,8 @@ typedef struct s_input
 typedef struct s_game
 {
 	mlx_t			*mlx;
-	int				floor_color[3];
-	int				celing_color[3];
+	int				floor_color;
+	int				celing_color;
 	char			**map;
 	t_player		player;
 	t_input			input;

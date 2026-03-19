@@ -46,15 +46,7 @@ bool	parse_color(t_game *game, char *line)
 static void	set_rgb(t_game *game, char *line, int rgb[3])
 {
 	if (*line == 'F')
-	{
-		game->floor_color[0] = rgb[0];
-		game->floor_color[1] = rgb[1];
-		game->floor_color[2] = rgb[2];
-	}
+		game->floor_color = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 0xFF;
 	else if (*line == 'C')
-	{
-		game->celing_color[0] = rgb[0];
-		game->celing_color[1] = rgb[1];
-		game->celing_color[2] = rgb[2];
-	}
+		game->celing_color = rgb[0] << 24 | rgb[1] << 16 | rgb[2] << 8 | 0xFF;
 }
