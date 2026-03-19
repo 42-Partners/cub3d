@@ -44,7 +44,7 @@ static void	get_map(int map_fd, t_game *game)
 
 	line = get_next_line(map_fd);
 	game->map = ft_calloc(1, sizeof (char *));
-	while (ft_strcmp("\n", line) == 0)
+	while (line && ft_strcmp("\n", line) == 0)
 	{
 		free(line);
 		line = get_next_line(map_fd);
@@ -104,6 +104,8 @@ static void	set_map_size(t_game *game)
 			error_exit(game, "Map too big");
 		y++;
 	}
-	game->map_size_x = max_x;
+	if (max_x < 2 || y < 2)
+		error_exit(game, "Invalid map");
+	game->map_size_x = max_x + 1;
 	game->map_size_y = y;
 }
