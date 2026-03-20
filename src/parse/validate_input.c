@@ -11,10 +11,12 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <limits.h>
 
 int			validate_config(int map_fd, t_game *game);
 static bool	add_row(t_game *game, char *row);
 static void	get_map(int map_fd, t_game *game);
+static void	set_map_size(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename)
 {
@@ -32,6 +34,7 @@ void	validate_input(t_game *game, int argc, char *filename)
 	if (!validate_config(map_fd, game))
 		error_exit(game, ".cub file configuration is not correctly definined.");
 	get_map(map_fd, game);
+	set_map_size(game);
 	close (map_fd);
 }
 
@@ -41,7 +44,7 @@ static void	get_map(int map_fd, t_game *game)
 
 	line = get_next_line(map_fd);
 	game->map = ft_calloc(1, sizeof (char *));
-	while (ft_strcmp("\n", line) == 0)
+	while (line && ft_strcmp("\n", line) == 0)
 	{
 		free(line);
 		line = get_next_line(map_fd);
@@ -50,7 +53,7 @@ static void	get_map(int map_fd, t_game *game)
 	{
 		if (ft_strcmp("\n", line) != 0 && !add_row(game, line))
 			error_exit(game, "Malloc error.");
-		else
+		else if (ft_strcmp("\n", line) == 0)
 			free(line);
 		line = get_next_line(map_fd);
 	}
@@ -76,4 +79,33 @@ static bool	add_row(t_game *game, char *row)
 	game->map[i] = row;
 	game->map[i + 1] = NULL;
 	return (true);
+}
+
+static void	set_map_size(t_game *game)
+{
+	int	max_x;
+	int	x;
+	int	y;
+
+	y = 0;
+	max_x = 0;
+	while (game->map[y])
+	{
+		x = 0;
+		while (game->map[y][x] && game->map[y][x] != '\n')
+		{
+			if (x == INT_MAX - 10)
+				error_exit(game, "Map too big");
+			if (x > max_x)
+				max_x = x;
+			x++;
+		}
+		if (y == INT_MAX - 10)
+			error_exit(game, "Map too big");
+		y++;
+	}
+	if (max_x < 2 || y < 2)
+		error_exit(game, "Invalid map");
+	game->map_size_x = max_x + 1;
+	game->map_size_y = y;
 }

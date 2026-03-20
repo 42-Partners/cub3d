@@ -48,6 +48,8 @@ typedef struct s_game
 	int				floor_color[3];
 	int				celing_color[3];
 	char			**map;
+	int				map_size_y;
+	int				map_size_x;
 	t_player		player;
 	t_input			input;
 	mlx_image_t		*img;
