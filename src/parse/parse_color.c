@@ -21,8 +21,6 @@ bool	parse_color(t_game *game, char *line)
 	int	y;
 
 	i = 1;
-	if (!line[i] || !ft_isspace(line[i]))
-		return (false);
 	y = 0;
 	while (y < 3 && line[++i])
 	{

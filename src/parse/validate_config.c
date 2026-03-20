@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/19 04:20:39 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/20 01:26:44 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static bool	check_all(bool checks[6]);
 static bool	validate_line(char *line, t_game *game, bool checks[6]);
 static bool	parse_config(t_game *game, char *line, int flag);
+static void	clean_gnl(int fd);
 
 /* bool array checks every config following the table below: */
 // checks[0] = NO;
@@ -26,14 +27,11 @@ static bool	parse_config(t_game *game, char *line, int flag);
 // REMINDER: free all alocated configs when line 56 becomes true
 int	validate_config(int map_fd, t_game *game)
 {
-	bool	checks[6];
-	int		i;
 	char	*line;
 	char	*aux;
+	bool	checks[6];
 
-	i = 0;
-	while (i < 6)
-		checks[i++] = false;
+	ft_memset(checks, 0, sizeof(checks));
 	line = get_next_line(map_fd);
 	while (line && !check_all(checks))
 	{
@@ -42,12 +40,14 @@ int	validate_config(int map_fd, t_game *game)
 		if (!aux)
 			error_exit(game, "Malloc.");
 		if (!validate_line(aux, game, checks))
-			return (false);
+		{
+			clean_gnl(map_fd);
+			return (free(aux), false);
+		}
 		free(aux);
 		line = get_next_line(map_fd);
 	}
-	free(line);
-	return (check_all(checks));
+	return (free(line), check_all(checks));
 }
 
 /* start parsing here */
@@ -58,15 +58,15 @@ static bool	validate_line(char *line, t_game *game, bool checks[6])
 	check_num = -1;
 	if (ft_strncmp("SO", line, 2) == 0)
 		check_num = 0;
-	else if (ft_strncmp("NO", line, 2) == 0)
+	else if (ft_strncmp("NO ", line, 2) == 0)
 		check_num = 1;
-	else if (ft_strncmp("WE", line, 2) == 0)
+	else if (ft_strncmp("WE ", line, 2) == 0)
 		check_num = 2;
-	else if (ft_strncmp("EA", line, 2) == 0)
+	else if (ft_strncmp("EA ", line, 2) == 0)
 		check_num = 3;
-	else if (ft_strncmp("F", line, 1) == 0)
+	else if (ft_strncmp("F ", line, 1) == 0)
 		check_num = 4;
-	else if (ft_strncmp("C", line, 1) == 0)
+	else if (ft_strncmp("C ", line, 1) == 0)
 		check_num = 5;
 	else if (*line == '\n')
 		return (true);
@@ -91,15 +91,21 @@ static bool	check_all(bool checks[6])
 
 static bool	parse_config(t_game *game, char *line, int flag)
 {
-	if (flag == 0)
-		(void)game;
-	else if (flag == 1)
-		(void)game;
-	else if (flag == 2)
-		(void)game;
-	else if (flag == 3)
-		(void)game;
+	if (flag < 4)
+		parse_textures(game, line + 3, flag);
 	else if (flag == 4 || flag == 5)
 		return (parse_color(game, line));
 	return (true);
+}
+
+static void	clean_gnl(int fd)
+{
+	char	*aux;
+
+	aux = get_next_line(fd);
+	while (aux)
+	{
+		free(aux);
+		aux = get_next_line(fd);
+	}
 }

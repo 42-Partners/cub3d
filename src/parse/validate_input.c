@@ -29,9 +29,13 @@ void	validate_input(t_game *game, int argc, char *filename)
 	map_fd = open(filename, O_RDONLY);
 	if (map_fd == -1)
 		error_exit(game, "Could not open the file.");
-	if (!validate_config(map_fd, game))
+	if (validate_config(map_fd, game))
+		get_map(map_fd, game);
+	else
+	{
+		close(map_fd);
 		error_exit(game, ".cub file configuration is not correctly definined.");
-	get_map(map_fd, game);
+	}
 	close (map_fd);
 }
 
@@ -41,7 +45,7 @@ static void	get_map(int map_fd, t_game *game)
 
 	line = get_next_line(map_fd);
 	game->map = ft_calloc(1, sizeof (char *));
-	while (ft_strcmp("\n", line) == 0)
+	while (line && ft_strcmp("\n", line) == 0)
 	{
 		free(line);
 		line = get_next_line(map_fd);

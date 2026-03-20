@@ -19,6 +19,7 @@ SRC_DIR			:= 	src
 SRC				:= 	main.c \
 					init/init.c \
 					parse/parse_color.c \
+					parse/parse_textures.c \
 					parse/validate_config.c \
 					parse/validate_input.c \
 					render/render.c \

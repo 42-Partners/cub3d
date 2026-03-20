@@ -42,6 +42,14 @@ typedef struct s_input
 	bool	right;
 }	t_input;
 
+typedef struct s_textures
+{
+	mlx_texture_t	*so;
+	mlx_texture_t	*no;
+	mlx_texture_t	*we;
+	mlx_texture_t	*ea;
+}	t_textures;
+
 typedef struct s_game
 {
 	mlx_t			*mlx;
@@ -51,11 +59,13 @@ typedef struct s_game
 	t_player		player;
 	t_input			input;
 	mlx_image_t		*img;
+	t_textures		textures;
 }	t_game;
 
 void	init_game(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename);
+void	parse_textures(t_game *game, char *file_name, int flag);
 bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
