@@ -45,8 +45,8 @@ typedef struct s_input
 typedef struct s_game
 {
 	mlx_t			*mlx;
-	int				floor_color[3];
-	int				celing_color[3];
+	int				floor_color;
+	int				celing_color;
 	char			**map;
 	int				map_size_y;
 	int				map_size_x;
@@ -58,6 +58,7 @@ typedef struct s_game
 void	init_game(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename);
+bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
 void	render_frame(t_game *game);

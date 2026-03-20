@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/17 17:49:21 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/19 04:20:39 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static bool	check_all(bool checks[6]);
 static bool	validate_line(char *line, t_game *game, bool checks[6]);
+static bool	parse_config(t_game *game, char *line, int flag);
 
 /* bool array checks every config following the table below: */
 // checks[0] = NO;
@@ -54,7 +55,6 @@ static bool	validate_line(char *line, t_game *game, bool checks[6])
 {
 	int	check_num;
 
-	(void)game;
 	check_num = -1;
 	if (ft_strncmp("SO", line, 2) == 0)
 		check_num = 0;
@@ -76,7 +76,7 @@ static bool	validate_line(char *line, t_game *game, bool checks[6])
 		return (false);
 	else if (check_num != -1)
 		checks[check_num] = true;
-	return (true);
+	return (parse_config(game, line, check_num));
 }
 
 static bool	check_all(bool checks[6])
@@ -87,4 +87,19 @@ static bool	check_all(bool checks[6])
 	while (i < 6 && checks[i])
 		i++;
 	return (i == 6);
+}
+
+static bool	parse_config(t_game *game, char *line, int flag)
+{
+	if (flag == 0)
+		(void)game;
+	else if (flag == 1)
+		(void)game;
+	else if (flag == 2)
+		(void)game;
+	else if (flag == 3)
+		(void)game;
+	else if (flag == 4 || flag == 5)
+		return (parse_color(game, line));
+	return (true);
 }
