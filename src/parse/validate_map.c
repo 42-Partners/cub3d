@@ -6,56 +6,54 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 17:37:19 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/19 20:57:46 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/21 01:02:48 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	validate_row(t_game *game, int *spawn, int i);
+static void	validate_row(t_game *game, int *spawn, int x);
 static int	validate_char(char c);
-static void	flood_fill(t_game *game, char **map, int x, int y);
-static char	**copy_map(t_game *game);
+static void	flood_fill(t_game *game, int x, int y);
+static void	copy_map(t_game *game);
 
 void	validate_map(t_game *game)
 {
-	char	**map;
 	int		spawn;
-	int		i;
+	int		x;
 
-	map = copy_map(game);
 	spawn = 0;
-	i = 0;
-	while (game->map.map[i])
+	x = 0;
+	while (game->map.map[x])
 	{
-		validate_row(game, &spawn, i);
-		i++;
+		validate_row(game, &spawn, x);
+		x++;
 	}
 	if (spawn != 1)
 		error_exit(game, "Invalid map");
-	flood_fill(game, map, (int)game->player.pos_x, (int)game->player.pos_y);
-	ft_free_arr(&map);
+	copy_map(game);
+	flood_fill(game, (int)game->player.pos_x, (int)game->player.pos_y);
 }
 
-static void	validate_row(t_game *game, int *spawn, int i)
+static void	validate_row(t_game *game, int *spawn, int x)
 {
 	char	c;
-	int		j;
+	int		y;
 
-	j = 0;
-	while (game->map.map[i][j])
+	y = 0;
+	while (game->map.map[x][y])
 	{
-		c = game->map.map[i][j];
+		c = game->map.map[x][y];
 		if (!validate_char(c))
 			error_exit(game, "Invalid map");
 		if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		{
-			game->player.pos_x = i;
-			game->player.pos_y = j;
-			game->player.orientation = game->map.map[i][j];
+			game->player.pos_x = x;
+			game->player.pos_y = y;
+			game->player.orientation = game->map.map[x][y];
 			(*spawn)++;
 		}
-		j++;
+		y++;
 	}
 }
 
@@ -65,46 +63,41 @@ static int	validate_char(char c)
 		|| c == 'E' || c == 'W' || c == ' ');
 }
 
-static void	flood_fill(t_game *game, char **map, int x, int y)
+static void	flood_fill(t_game *game, int x, int y)
 {
 	if (x < 0 || x >= game->map.rows)
 		error_exit(game, "Invalid map");
-	if (y < 0 || (size_t)y >= ft_strlen(map[x]))
+	if (y < 0 || (size_t)y >= ft_strlen(game->map.copy[x]))
 		error_exit(game, "Invalid map");
-	if (map[x][y] == ' ')
+	if (game->map.copy[x][y] == ' ')
 		error_exit(game, "Invalid map");
-	else if (map[x][y] == '1' || map[x][y] == 'V')
+	else if (game->map.copy[x][y] == '1' || game->map.copy[x][y] == 'V')
 		return ;
-	map[x][y] = 'V';
-	flood_fill(game, map, x + 1, y);
-	flood_fill(game, map, x - 1, y);
-	flood_fill(game, map, x, y + 1);
-	flood_fill(game, map, x, y - 1);
-	flood_fill(game, map, x + 1, y + 1);
-	flood_fill(game, map, x - 1, y - 1);
-	flood_fill(game, map, x + 1, y - 1);
-	flood_fill(game, map, x - 1, y + 1);
+	game->map.copy[x][y] = 'V';
+	flood_fill(game, x + 1, y);
+	flood_fill(game, x - 1, y);
+	flood_fill(game, x, y + 1);
+	flood_fill(game, x, y - 1);
+	flood_fill(game, x + 1, y + 1);
+	flood_fill(game, x - 1, y - 1);
+	flood_fill(game, x + 1, y - 1);
+	flood_fill(game, x - 1, y + 1);
 }
 
-static char	**copy_map(t_game *game)
+static void	copy_map(t_game *game)
 {
-	char	**copy;
 	int		i;
 
-	copy = ft_calloc(game->map.rows + 1, sizeof(char *));
-	if (!copy)
+	game->map.copy = ft_calloc(game->map.rows + 1, sizeof(char *));
+	if (!game->map.copy)
 		error_exit(game, "Malloc error");
 	i = 0;
 	while (i < game->map.rows)
 	{
-		copy[i] = ft_strdup(game->map.map[i]);
-		if (!copy[i])
-		{
-			ft_free_arr(&copy);
+		game->map.copy[i] = ft_strdup(game->map.map[i]);
+		if (!game->map.copy[i])
 			error_exit(game, "Malloc error");
-		}
 		i++;
 	}
-	copy[i] = NULL;
-	return (copy);
+	game->map.copy[i] = NULL;
 }

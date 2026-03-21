@@ -36,6 +36,7 @@ typedef struct s_player
 typedef struct s_map
 {
 	char	**map;
+	char	**copy;
 	int		rows;
 	int		cols;
 }	t_map;
@@ -50,22 +51,32 @@ typedef struct s_input
 	bool	right;
 }	t_input;
 
+typedef struct s_textures
+{
+	mlx_texture_t	*so;
+	mlx_texture_t	*no;
+	mlx_texture_t	*we;
+	mlx_texture_t	*ea;
+}	t_textures;
+
 typedef struct s_game
 {
 	mlx_t			*mlx;
-	int				floor_color[3];
-	int				celing_color[3];
+	int				floor_color;
+	int				celing_color;
 	t_map			map;
 	t_player		player;
 	t_input			input;
+	t_textures		textures;
 	mlx_image_t		*img;
 }	t_game;
 
 void	init_game(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename);
-void	validate_config(int map_fd, t_game *game);
+void	validate_config(t_game *game, int map_fd);
 void	validate_map(t_game *game);
+bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
 void	render_frame(t_game *game);
@@ -73,7 +84,8 @@ void	render_frame(t_game *game);
 void	handle_key(mlx_key_data_t keydata, void *param);
 
 void	cleanup(t_game *game);
-void	close_window(void *param);
 void	error_exit(t_game *game, char *msg);
+void	close_window(void *param);
+void	clean_gnl(int fd);
 
 #endif

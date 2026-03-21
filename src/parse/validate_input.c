@@ -12,9 +12,12 @@
 
 #include "cub3d.h"
 
-void		validate_config(int map_fd, t_game *game);
-static void	parse_map(int map_fd, t_game *game);
+#include <limits.h>
+
+void		validate_config(t_game *game, int map_fd);
+static void	parse_map(t_game *game, int map_fd);
 static void	fill_map(t_game *game, char *line, int map_fd);
+static void	set_map_size(t_game *game);
 static bool	add_row(t_game *game, char *row);
 
 void	validate_input(t_game *game, int argc, char *filename)
@@ -30,12 +33,13 @@ void	validate_input(t_game *game, int argc, char *filename)
 	map_fd = open(filename, O_RDONLY);
 	if (map_fd == -1)
 		error_exit(game, "Could not open the file");
-	validate_config(map_fd, game);
-	parse_map(map_fd, game);
+	validate_config(game, map_fd);
+	parse_map(game, map_fd);
+	set_map_size(game);
 	close(map_fd);
 }
 
-static void	parse_map(int map_fd, t_game *game)
+static void	parse_map(t_game *game, int map_fd)
 {
 	char	*line;
 
@@ -49,7 +53,7 @@ static void	parse_map(int map_fd, t_game *game)
 		line = get_next_line(map_fd);
 	}
 	fill_map(game, line, map_fd);
-	get_next_line(-1);
+	clean_gnl(map_fd);
 }
 
 static void	fill_map(t_game *game, char *line, int map_fd)
@@ -81,7 +85,6 @@ static bool	add_row(t_game *game, char *row)
 	i = 0;
 	while (game->map.map[i])
 		i++;
-	game->map.rows++;
 	new_map = ft_realloc(
 			game->map.map, sizeof(char *) * i, sizeof(char *) * (i + 2));
 	if (!new_map)
@@ -93,4 +96,33 @@ static bool	add_row(t_game *game, char *row)
 	game->map.map[i] = row;
 	game->map.map[i + 1] = NULL;
 	return (true);
+}
+
+static void	set_map_size(t_game *game)
+{
+	int	max_y;
+	int	y;
+	int	x;
+
+	x = 0;
+	max_y = 0;
+	while (game->map.map[x])
+	{
+		y = 0;
+		while (game->map.map[x][y] && game->map.map[x][y] != '\n')
+		{
+			if (y == INT_MAX - 10)
+				error_exit(game, "Map too big");
+			if (y > max_y)
+				max_y = y;
+			y++;
+		}
+		if (x == INT_MAX - 10)
+			error_exit(game, "Map too big");
+		x++;
+	}
+	if (max_y < 2 || x < 2)
+		error_exit(game, "Invalid map");
+	game->map.rows = x;
+	game->map.cols = max_y + 1;
 }

@@ -6,14 +6,15 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/19 20:58:09 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/21 01:04:24 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static bool	check_all(bool checks[6]);
-static bool	validate_line(char *line, bool checks[6]);
+static bool	validate_line(t_game *game, char *line, bool checks[6]);
+static bool	parse_config(t_game *game, char *line, int flag);
 
 /* bool array checks every config following the table below: */
 // checks[0] = NO;
@@ -23,16 +24,13 @@ static bool	validate_line(char *line, bool checks[6]);
 // checks[4] = floor;
 // checks[5] = ceeling;
 // REMINDER: free all alocated configs when line 56 becomes true
-void	validate_config(int map_fd, t_game *game)
+void	validate_config(t_game *game, int map_fd)
 {
 	char	*line;
 	char	*aux;
 	bool	checks[6];
-	int		i;
 
-	i = 0;
-	while (i < 6)
-		checks[i++] = false;
+	ft_memset(checks, 0, sizeof(checks));
 	line = get_next_line(map_fd);
 	while (line && !check_all(checks))
 	{
@@ -40,8 +38,12 @@ void	validate_config(int map_fd, t_game *game)
 		free(line);
 		if (!aux)
 			error_exit(game, "Malloc error");
-		if (!validate_line(aux, checks))
+		if (!validate_line(game, aux, checks))
+		{
+			clean_gnl(map_fd);
+			free(aux);
 			error_exit(game, "Invalid configuration");
+		}
 		free(aux);
 		line = get_next_line(map_fd);
 	}
@@ -51,7 +53,7 @@ void	validate_config(int map_fd, t_game *game)
 }
 
 /* start parsing here */
-static bool	validate_line(char *line, bool checks[6])
+static bool	validate_line(t_game *game, char *line, bool checks[6])
 {
 	int	check_num;
 
@@ -75,6 +77,7 @@ static bool	validate_line(char *line, bool checks[6])
 	if (checks[check_num])
 		return (false);
 	checks[check_num] = true;
+	parse_config(game, line, check_num);
 	return (true);
 }
 
@@ -86,4 +89,19 @@ static bool	check_all(bool checks[6])
 	while (i < 6 && checks[i])
 		i++;
 	return (i == 6);
+}
+
+static bool	parse_config(t_game *game, char *line, int flag)
+{
+	if (flag == 0)
+		(void)game;
+	else if (flag == 1)
+		(void)game;
+	else if (flag == 2)
+		(void)game;
+	else if (flag == 3)
+		(void)game;
+	else if (flag == 4 || flag == 5)
+		return (parse_color(game, line));
+	return (true);
 }

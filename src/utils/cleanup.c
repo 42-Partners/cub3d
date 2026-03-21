@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:18:39 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/19 18:25:33 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/21 00:31:07 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	cleanup(t_game *game)
 {
 	if (game->mlx)
 		mlx_terminate(game->mlx);
-	free(game->map.map);
+	if (game->map.map)
+		ft_free_arr(&game->map.map);
+	if (game->map.copy)
+		ft_free_arr(&game->map.copy);
 }
 
 void	close_window(void *param)
@@ -38,4 +41,16 @@ void	error_exit(t_game *game, char *msg)
 		printf("Error\n%s\n", mlx_strerror(mlx_get_errno()));
 	cleanup(game);
 	exit(EXIT_FAILURE);
+}
+
+void	clean_gnl(int fd)
+{
+	char	*aux;
+
+	aux = get_next_line(fd);
+	while (aux)
+	{
+		free(aux);
+		aux = get_next_line(fd);
+	}
 }
