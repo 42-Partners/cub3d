@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_config.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/21 01:04:24 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/21 23:46:13 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	check_all(bool checks[6]);
 static bool	validate_line(t_game *game, char *line, bool checks[6]);
-static bool	parse_config(t_game *game, char *line, int flag);
+static void	parse_config(t_game *game, char *line, int flag);
 
 /* bool array checks every config following the table below: */
 // checks[0] = NO;
@@ -24,14 +24,14 @@ static bool	parse_config(t_game *game, char *line, int flag);
 // checks[4] = floor;
 // checks[5] = ceeling;
 // REMINDER: free all alocated configs when line 56 becomes true
-void	validate_config(t_game *game, int map_fd)
+void	validate_config(t_game *game)
 {
 	char	*line;
 	char	*aux;
 	bool	checks[6];
 
 	ft_memset(checks, 0, sizeof(checks));
-	line = get_next_line(map_fd);
+	line = get_next_line(game->map.map_fd);
 	while (line && !check_all(checks))
 	{
 		aux = ft_strtrim(line, " \t\n");
@@ -40,12 +40,12 @@ void	validate_config(t_game *game, int map_fd)
 			error_exit(game, "Malloc error");
 		if (!validate_line(game, aux, checks))
 		{
-			clean_gnl(map_fd);
+			clean_gnl(game->map.map_fd);
 			free(aux);
 			error_exit(game, "Invalid configuration");
 		}
 		free(aux);
-		line = get_next_line(map_fd);
+		line = get_next_line(game->map.map_fd);
 	}
 	free(line);
 	if (!check_all(checks))
@@ -91,7 +91,7 @@ static bool	check_all(bool checks[6])
 	return (i == 6);
 }
 
-static bool	parse_config(t_game *game, char *line, int flag)
+static void	parse_config(t_game *game, char *line, int flag)
 {
 	if (flag == 0)
 		(void)game;
@@ -102,6 +102,5 @@ static bool	parse_config(t_game *game, char *line, int flag)
 	else if (flag == 3)
 		(void)game;
 	else if (flag == 4 || flag == 5)
-		return (parse_color(game, line));
-	return (true);
+		parse_color(game, line);
 }

@@ -39,6 +39,7 @@ typedef struct s_map
 	char	**copy;
 	int		rows;
 	int		cols;
+	int		map_fd;
 }	t_map;
 
 typedef struct s_input
@@ -74,9 +75,9 @@ typedef struct s_game
 void	init_game(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename);
-void	validate_config(t_game *game, int map_fd);
+void	validate_config(t_game *game);
 void	validate_map(t_game *game);
-bool	parse_color(t_game *game, char *line);
+void	parse_color(t_game *game, char *line);
 
 void	render(void *param);
 void	render_frame(t_game *game);

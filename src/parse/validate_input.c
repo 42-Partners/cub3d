@@ -15,8 +15,8 @@
 
 #include <limits.h>
 
-void		validate_config(t_game *game, int map_fd);
-static void	parse_map(t_game *game, int map_fd);
+void		validate_config(t_game *game);
+static void	parse_map(t_game *game);
 static void	fill_map(t_game *game, char *line, int map_fd);
 static void	set_map_size(t_game *game);
 static bool	add_row(t_game *game, char *row);
@@ -24,37 +24,37 @@ static bool	add_row(t_game *game, char *row);
 void	validate_input(t_game *game, int argc, char *filename)
 {
 	char	*dot;
-	int		map_fd;
 
 	if (argc != 2)
 		error_exit(game, "Usage: ./cub3d <map.cub>");
 	dot = ft_strrchr(filename, '.');
 	if (!dot || ft_strncmp(dot, ".cub", 5) != 0)
 		error_exit(game, "Invalid file format");
-	map_fd = open(filename, O_RDONLY);
-	if (map_fd == -1)
+	game->map.map_fd = open(filename, O_RDONLY);
+	if (game->map.map_fd == -1)
 		error_exit(game, "Could not open the file");
-	validate_config(game, map_fd);
-	parse_map(game, map_fd);
+	validate_config(game);
+	parse_map(game);
 	set_map_size(game);
-	close(map_fd);
+	close(game->map.map_fd);
+	game->map.map_fd = -1;
 }
 
-static void	parse_map(t_game *game, int map_fd)
+static void	parse_map(t_game *game)
 {
 	char	*line;
 
-	line = get_next_line(map_fd);
+	line = get_next_line(game->map.map_fd);
 	game->map.map = ft_calloc(1, sizeof (char *));
 	if (!game->map.map)
 		error_exit(game, "Malloc error");
 	while (line && ft_strcmp("\n", line) == 0)
 	{
 		free(line);
-		line = get_next_line(map_fd);
+		line = get_next_line(game->map.map_fd);
 	}
-	fill_map(game, line, map_fd);
-	clean_gnl(map_fd);
+	fill_map(game, line, game->map.map_fd);
+	clean_gnl(game->map.map_fd);
 }
 
 static void	fill_map(t_game *game, char *line, int map_fd)
