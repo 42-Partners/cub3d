@@ -1,6 +1,6 @@
-NO ./textures/no.png
-SO ./textures/so.png
-WE ./textures/we.png
+NO ./textures/donut.png
+SO ./textures/donut.png
+WE ./textures/donut.png
 
 F 220,100,0
 C 225,30,0
