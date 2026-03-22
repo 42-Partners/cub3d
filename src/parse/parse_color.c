@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 03:29:26 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/19 03:29:26 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/22 00:09:07 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ bool	parse_color(t_game *game, char *line)
 		}
 		y++;
 	}
-	if (y != 3 || line[i] != '\n')
+	if (y != 3 || line[i])
 		return (false);
 	set_rgb(game, line, rgb);
 	return (true);

@@ -22,6 +22,7 @@ SRC				:= 	main.c \
 					parse/parse_textures.c \
 					parse/validate_config.c \
 					parse/validate_input.c \
+					parse/validate_map.c \
 					render/render.c \
 					render/draw.c \
 					hooks/key_hooks.c \

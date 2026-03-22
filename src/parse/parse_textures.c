@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-void	parse_textures(t_game *game, char *file_name, int flag)
+bool	parse_textures(t_game *game, char *file_name, int flag)
 {
 	mlx_texture_t	*tex;
 
@@ -20,7 +20,7 @@ void	parse_textures(t_game *game, char *file_name, int flag)
 		file_name[ft_strlen(file_name) - 1] = 0;
 	tex = mlx_load_png(file_name);
 	if (!tex)
-		error_exit(game, "Error while loading texture.");
+		return (false);
 	if (flag == 0)
 		game->textures.so = tex;
 	else if (flag == 1)
@@ -29,4 +29,5 @@ void	parse_textures(t_game *game, char *file_name, int flag)
 		game->textures.we = tex;
 	else if (flag == 3)
 		game->textures.ea = tex;
+	return (true);
 }

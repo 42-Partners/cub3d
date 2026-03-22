@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:06:10 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/20 01:13:34 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/22 00:01:49 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_game(t_game *game)
 {
-	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", RESIZE);
+	game->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", false);
 	if (!game->mlx)
 		error_exit(game, NULL);
 	game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
