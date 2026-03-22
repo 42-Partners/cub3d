@@ -20,6 +20,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define CAMERA_HEIGHT -75
 
 typedef struct s_player
 {
@@ -81,6 +82,7 @@ bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
 void	render_frame(t_game *game);
+void	raycast(t_game *game);
 
 void	handle_key(mlx_key_data_t keydata, void *param);
 
