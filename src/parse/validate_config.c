@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   validate_config.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/19 04:20:39 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/21 01:04:24 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static bool	check_all(bool checks[6]);
-static bool	validate_line(char *line, t_game *game, bool checks[6]);
+static bool	validate_line(t_game *game, char *line, bool checks[6]);
 static bool	parse_config(t_game *game, char *line, int flag);
 
 /* bool array checks every config following the table below: */
@@ -24,34 +24,36 @@ static bool	parse_config(t_game *game, char *line, int flag);
 // checks[4] = floor;
 // checks[5] = ceeling;
 // REMINDER: free all alocated configs when line 56 becomes true
-int	validate_config(int map_fd, t_game *game)
+void	validate_config(t_game *game, int map_fd)
 {
-	bool	checks[6];
-	int		i;
 	char	*line;
 	char	*aux;
+	bool	checks[6];
 
-	i = 0;
-	while (i < 6)
-		checks[i++] = false;
+	ft_memset(checks, 0, sizeof(checks));
 	line = get_next_line(map_fd);
 	while (line && !check_all(checks))
 	{
-		aux = ft_strtrim(line, " \t");
+		aux = ft_strtrim(line, " \t\n");
 		free(line);
 		if (!aux)
-			error_exit(game, "Malloc.");
-		if (!validate_line(aux, game, checks))
-			return (false);
+			error_exit(game, "Malloc error");
+		if (!validate_line(game, aux, checks))
+		{
+			clean_gnl(map_fd);
+			free(aux);
+			error_exit(game, "Invalid configuration");
+		}
 		free(aux);
 		line = get_next_line(map_fd);
 	}
 	free(line);
-	return (check_all(checks));
+	if (!check_all(checks))
+		error_exit(game, "Incomplete configuration");
 }
 
 /* start parsing here */
-static bool	validate_line(char *line, t_game *game, bool checks[6])
+static bool	validate_line(t_game *game, char *line, bool checks[6])
 {
 	int	check_num;
 
@@ -68,15 +70,15 @@ static bool	validate_line(char *line, t_game *game, bool checks[6])
 		check_num = 4;
 	else if (ft_strncmp("C", line, 1) == 0)
 		check_num = 5;
-	else if (*line == '\n')
+	else if (*line == '\0')
 		return (true);
 	else
 		return (false);
 	if (checks[check_num])
 		return (false);
-	else if (check_num != -1)
-		checks[check_num] = true;
-	return (parse_config(game, line, check_num));
+	checks[check_num] = true;
+	parse_config(game, line, check_num);
+	return (true);
 }
 
 static bool	check_all(bool checks[6])

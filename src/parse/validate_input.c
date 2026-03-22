@@ -13,10 +13,13 @@
 #include "cub3d.h"
 #include <limits.h>
 
-int			validate_config(int map_fd, t_game *game);
-static bool	add_row(t_game *game, char *row);
-static void	get_map(int map_fd, t_game *game);
+#include <limits.h>
+
+void		validate_config(t_game *game, int map_fd);
+static void	parse_map(t_game *game, int map_fd);
+static void	fill_map(t_game *game, char *line, int map_fd);
 static void	set_map_size(t_game *game);
+static bool	add_row(t_game *game, char *row);
 
 void	validate_input(t_game *game, int argc, char *filename)
 {
@@ -27,37 +30,52 @@ void	validate_input(t_game *game, int argc, char *filename)
 		error_exit(game, "Usage: ./cub3d <map.cub>");
 	dot = ft_strrchr(filename, '.');
 	if (!dot || ft_strncmp(dot, ".cub", 5) != 0)
-		error_exit(game, "Invalid file format.");
+		error_exit(game, "Invalid file format");
 	map_fd = open(filename, O_RDONLY);
 	if (map_fd == -1)
-		error_exit(game, "Could not open the file.");
-	if (!validate_config(map_fd, game))
-		error_exit(game, ".cub file configuration is not correctly definined.");
-	get_map(map_fd, game);
+		error_exit(game, "Could not open the file");
+	validate_config(game, map_fd);
+	parse_map(game, map_fd);
 	set_map_size(game);
-	close (map_fd);
+	close(map_fd);
 }
 
-static void	get_map(int map_fd, t_game *game)
+static void	parse_map(t_game *game, int map_fd)
 {
 	char	*line;
 
 	line = get_next_line(map_fd);
-	game->map = ft_calloc(1, sizeof (char *));
+	game->map.map = ft_calloc(1, sizeof (char *));
+	if (!game->map.map)
+		error_exit(game, "Malloc error");
 	while (line && ft_strcmp("\n", line) == 0)
 	{
 		free(line);
 		line = get_next_line(map_fd);
 	}
+	fill_map(game, line, map_fd);
+	clean_gnl(map_fd);
+}
+
+static void	fill_map(t_game *game, char *line, int map_fd)
+{
+	char	*trimmed;
+
 	while (line)
 	{
-		if (ft_strcmp("\n", line) != 0 && !add_row(game, line))
-			error_exit(game, "Malloc error.");
-		else if (ft_strcmp("\n", line) == 0)
-			free(line);
+		trimmed = ft_strtrim(line, "\n");
+		free(line);
+		if (!trimmed)
+			error_exit(game, "Malloc error");
+		if (*trimmed == '\0')
+		{
+			free(trimmed);
+			break ;
+		}
+		else if (!add_row(game, trimmed))
+			error_exit(game, "Malloc error");
 		line = get_next_line(map_fd);
 	}
-	get_next_line(-1);
 }
 
 static bool	add_row(t_game *game, char *row)
@@ -66,46 +84,46 @@ static bool	add_row(t_game *game, char *row)
 	char	**new_map;
 
 	i = 0;
-	while (game->map[i])
+	while (game->map.map[i])
 		i++;
 	new_map = ft_realloc(
-			game->map, sizeof(char *) * i, sizeof(char *) * (i + 2));
+			game->map.map, sizeof(char *) * i, sizeof(char *) * (i + 2));
 	if (!new_map)
 	{
-		ft_free_arr(&game->map);
+		ft_free_arr(&game->map.map);
 		return (false);
 	}
-	game->map = new_map;
-	game->map[i] = row;
-	game->map[i + 1] = NULL;
+	game->map.map = new_map;
+	game->map.map[i] = row;
+	game->map.map[i + 1] = NULL;
 	return (true);
 }
 
 static void	set_map_size(t_game *game)
 {
-	int	max_x;
-	int	x;
+	int	max_y;
 	int	y;
+	int	x;
 
-	y = 0;
-	max_x = 0;
-	while (game->map[y])
+	x = 0;
+	max_y = 0;
+	while (game->map.map[x])
 	{
-		x = 0;
-		while (game->map[y][x] && game->map[y][x] != '\n')
+		y = 0;
+		while (game->map.map[x][y] && game->map.map[x][y] != '\n')
 		{
-			if (x == INT_MAX - 10)
+			if (y == INT_MAX - 10)
 				error_exit(game, "Map too big");
-			if (x > max_x)
-				max_x = x;
-			x++;
+			if (y > max_y)
+				max_y = y;
+			y++;
 		}
-		if (y == INT_MAX - 10)
+		if (x == INT_MAX - 10)
 			error_exit(game, "Map too big");
-		y++;
+		x++;
 	}
-	if (max_x < 2 || y < 2)
+	if (max_y < 2 || x < 2)
 		error_exit(game, "Invalid map");
-	game->map_size_x = max_x + 1;
-	game->map_size_y = y;
+	game->map.rows = x;
+	game->map.cols = max_y + 1;
 }

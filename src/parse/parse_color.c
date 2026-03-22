@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_color.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 03:29:26 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/19 03:29:26 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/21 01:05:33 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ bool	parse_color(t_game *game, char *line)
 	int	y;
 
 	i = 1;
-	if (!line[i] || !ft_isspace(line[i]))
-		return (false);
 	y = 0;
 	while (y < 3 && line[++i])
 	{
