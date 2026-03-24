@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/21 23:46:13 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/22 00:12:44 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static bool	check_all(bool checks[6]);
 static bool	validate_line(t_game *game, char *line, bool checks[6]);
-static void	parse_config(t_game *game, char *line, int flag);
+static bool	parse_config(t_game *game, char *line, int flag);
 
 /* bool array checks every config following the table below: */
 // checks[0] = NO;
@@ -60,15 +60,15 @@ static bool	validate_line(t_game *game, char *line, bool checks[6])
 	check_num = -1;
 	if (ft_strncmp("SO", line, 2) == 0)
 		check_num = 0;
-	else if (ft_strncmp("NO", line, 2) == 0)
+	else if (ft_strncmp("NO ", line, 2) == 0)
 		check_num = 1;
-	else if (ft_strncmp("WE", line, 2) == 0)
+	else if (ft_strncmp("WE ", line, 2) == 0)
 		check_num = 2;
-	else if (ft_strncmp("EA", line, 2) == 0)
+	else if (ft_strncmp("EA ", line, 2) == 0)
 		check_num = 3;
-	else if (ft_strncmp("F", line, 1) == 0)
+	else if (ft_strncmp("F ", line, 1) == 0)
 		check_num = 4;
-	else if (ft_strncmp("C", line, 1) == 0)
+	else if (ft_strncmp("C ", line, 1) == 0)
 		check_num = 5;
 	else if (*line == '\0')
 		return (true);
@@ -77,8 +77,7 @@ static bool	validate_line(t_game *game, char *line, bool checks[6])
 	if (checks[check_num])
 		return (false);
 	checks[check_num] = true;
-	parse_config(game, line, check_num);
-	return (true);
+	return (parse_config(game, line, check_num));
 }
 
 static bool	check_all(bool checks[6])
@@ -91,16 +90,11 @@ static bool	check_all(bool checks[6])
 	return (i == 6);
 }
 
-static void	parse_config(t_game *game, char *line, int flag)
+static bool	parse_config(t_game *game, char *line, int flag)
 {
-	if (flag == 0)
-		(void)game;
-	else if (flag == 1)
-		(void)game;
-	else if (flag == 2)
-		(void)game;
-	else if (flag == 3)
-		(void)game;
+	if (flag < 4)
+		return (parse_textures(game, line + 3, flag));
 	else if (flag == 4 || flag == 5)
-		parse_color(game, line);
+		return (parse_color(game, line));
+	return (false);
 }

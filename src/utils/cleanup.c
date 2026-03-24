@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:18:39 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/21 23:48:01 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/21 23:54:59 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@
 
 void	cleanup(t_game *game)
 {
+	if (game->textures.so)
+		mlx_delete_texture(game->textures.so);
+	if (game->textures.no)
+		mlx_delete_texture(game->textures.no);
+	if (game->textures.we)
+		mlx_delete_texture(game->textures.we);
+	if (game->textures.ea)
+		mlx_delete_texture(game->textures.ea);
 	if (game->map.map_fd != -1)
 		close(game->map.map_fd);
 	if (game->mlx)
@@ -38,9 +46,9 @@ void	close_window(void *param)
 void	error_exit(t_game *game, char *msg)
 {
 	if (msg)
-		printf("Error\n%s\n", msg);
+		printf("Error: %s\n", msg);
 	else
-		printf("Error\n%s\n", mlx_strerror(mlx_get_errno()));
+		printf("Error: %s\n", mlx_strerror(mlx_get_errno()));
 	cleanup(game);
 	exit(EXIT_FAILURE);
 }

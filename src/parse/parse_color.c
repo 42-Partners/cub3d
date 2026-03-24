@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 03:29:26 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/21 23:36:08 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/22 00:09:07 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	set_rgb(t_game *game, char *line, int rgb[3]);
 
-void	parse_color(t_game *game, char *line)
+bool	parse_color(t_game *game, char *line)
 {
 	int	rgb[3];
 	int	i;
@@ -26,18 +26,19 @@ void	parse_color(t_game *game, char *line)
 	{
 		rgb[y] = ft_atoi(&(line[i]));
 		if (rgb[y] > 255 || !ft_isdigit(line[i]))
-			error_exit(game, ".cub file invalid color value.");
+			return (false);
 		while (line[i] && (line[i] != ',' && line[i] != '\n'))
 		{
 			if (!ft_isdigit(line[i]) || i > 12)
-				error_exit(game, ".cub file config isn't correctly definined.");
+				return (false);
 			i++;
 		}
 		y++;
 	}
 	if (y != 3 || line[i])
-		error_exit(game, ".cub file config isn't correctly definined.");
+		return (false);
 	set_rgb(game, line, rgb);
+	return (true);
 }
 
 static void	set_rgb(t_game *game, char *line, int rgb[3])

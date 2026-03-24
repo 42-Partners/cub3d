@@ -20,7 +20,6 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define RESIZE false
 
 typedef struct s_player
 {
@@ -75,9 +74,10 @@ typedef struct s_game
 void	init_game(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename);
+bool	parse_textures(t_game *game, char *file_name, int flag);
 void	validate_config(t_game *game);
 void	validate_map(t_game *game);
-void	parse_color(t_game *game, char *line);
+bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
 void	render_frame(t_game *game);
