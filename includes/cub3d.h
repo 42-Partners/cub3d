@@ -22,6 +22,14 @@
 # define HEIGHT 800
 # define CAMERA_HEIGHT -75
 
+typedef enum e_direction
+{
+	SO,
+	NO,
+	WE,
+	EA
+}	t_direction;
+
 typedef struct s_player
 {
 	double	pos_x;
@@ -31,6 +39,7 @@ typedef struct s_player
 	double	orientation;
 	double	move_speed;
 	double	rot_speed;
+	int		facing;
 }	t_player;
 
 typedef struct s_raycast
@@ -46,6 +55,8 @@ typedef struct s_raycast
 	double	delta_dis_y;
 	int		map_x;
 	int		map_y;
+	int		side;
+	double	wall_x;
 }	t_raycast;
 
 

@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/24 01:03:04 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/24 03:32:14 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 static void	calc_delta(t_game *game, int col);
 static void	calc_step(t_game *game);
 static void	launch_ray(t_game *game);
-static void	calc_perp_wal_dis(t_game *game, int side);
+static void	calc_perp_wal_dis(t_game *game);
 // temporario
 static void	temp_drawwalls(t_game *game, int col);
 
@@ -95,7 +95,6 @@ static void	calc_step(t_game *game)
 static void	launch_ray(t_game *game)
 {
 	bool	hit;
-	int		side;
 
 	hit = false;
 	while (!hit)
@@ -104,34 +103,47 @@ static void	launch_ray(t_game *game)
 		{
 			game->rc.side_dis_x += game->rc.delta_dis_x;
 			game->rc.map_x += game->rc.step_x;
-			side = 0;
+			game->rc.side = 0;
 		}
 		else
 		{
 			game->rc.side_dis_y += game->rc.delta_dis_y;
 			game->rc.map_y += game->rc.step_y;
-			side = 1;
+			game->rc.side = 1;
 		}
 		if (game->map.map[(game->rc.map_y)][(game->rc.map_x)] == '1')
 			hit = true;
 	}
-	calc_perp_wal_dis(game, side);
+	calc_perp_wal_dis(game);
 }
 
-static void	calc_perp_wal_dis(t_game *game, int side)
+static void	calc_perp_wal_dis(t_game *game)
 {
-	if (side == 0)
+	if (game->rc.side == 0)
 	{
 		game->rc.perp_wall_dis
 			= (game->rc.map_x - game->player.pos_x
 				+ (1 - game->rc.step_x) / 2) / game->rc.ray_dir_x;
+		game->rc.wall_x
+			= game->player.pos_y + game->rc.perp_wall_dis * game->rc.ray_dir_y;
+		if (game->rc.ray_dir_x > 0)
+				game->player.facing = WE;
+		else
+				game->player.facing = EA;
 	}
 	else
 	{
 		game->rc.perp_wall_dis
 			= (game->rc.map_y - game->player.pos_y
 				+ (1 - game->rc.step_y) / 2) / game->rc.ray_dir_y;
+		game->rc.wall_x
+			= game->player.pos_x + game->rc.perp_wall_dis * game->rc.ray_dir_x;
+		if (game->rc.ray_dir_y > 0)
+				game->player.facing = NO;
+		else
+				game->player.facing = SO;
 	}
+	game->rc.wall_x -= floor(game->rc.wall_x);
 }
 
 // temporario
@@ -152,7 +164,14 @@ static void	temp_drawwalls(t_game *game, int col)
 	i = draw_start;
 	while (i <= draw_end)
 	{
-		mlx_put_pixel(game->img, col, i, 0xFFFFFFFF);
+		if (game->player.facing == NO) // zul
+			mlx_put_pixel(game->img, col, i, 0x000FFFFF);
+		else if (game->player.facing == SO) // marelo
+			mlx_put_pixel(game->img, col, i, 0xFFFF00FF);
+		else if (game->player.facing == EA) // verdin
+			mlx_put_pixel(game->img, col, i, 0x00FF00FF);
+		else if (game->player.facing == WE) // vremeio
+			mlx_put_pixel(game->img, col, i, 0xFF0000FF);
 		i++;
 	}
 }
