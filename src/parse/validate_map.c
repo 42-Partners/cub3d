@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 17:37:19 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/21 01:02:48 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/23 22:00:38 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static void	validate_row(t_game *game, int *spawn, int x)
 			error_exit(game, "Invalid map");
 		if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		{
-			game->player.pos_x = x;
-			game->player.pos_y = y;
+			game->player.pos_x = x + 0.5;
+			game->player.pos_y = y + 0.5;
 			game->player.orientation = game->map.map[x][y];
 			(*spawn)++;
 		}
