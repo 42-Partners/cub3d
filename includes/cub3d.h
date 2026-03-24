@@ -33,6 +33,22 @@ typedef struct s_player
 	double	rot_speed;
 }	t_player;
 
+typedef struct s_raycast
+{
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		step_x;
+	int		step_y;
+	double	side_dis_x;
+	double	side_dis_y;
+	double	perp_wall_dis;
+	double	delta_dis_x;
+	double	delta_dis_y;
+	int		map_x;
+	int		map_y;
+}	t_raycast;
+
+
 typedef struct s_map
 {
 	char	**map;
@@ -67,6 +83,7 @@ typedef struct s_game
 	int				celing_color;
 	t_map			map;
 	t_player		player;
+	t_raycast		rc;
 	t_input			input;
 	t_textures		textures;
 	mlx_image_t		*img;

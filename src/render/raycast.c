@@ -6,103 +6,153 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/22 07:38:14 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/24 01:03:04 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <math.h>
 
+static void	calc_delta(t_game *game, int col);
+static void	calc_step(t_game *game);
+static void	launch_ray(t_game *game);
+static void	calc_perp_wal_dis(t_game *game, int side);
+// temporario
+static void	temp_drawwalls(t_game *game, int col);
+
 void	raycast(t_game *game)
 {
 	// mock de player
-	double pos[2] = {8.5, 2.5};
-	double dir[2] = {1.0, 0.0};
-	
-	// // fov
-	double plane[2] = {0.0, 0.66};
-	
-	// ajustando angulo
-	double angle = 3.14159265358979323846 / 2;
-	dir[0] = cos(angle);
-	dir[1] = sin(angle);
+	game->player.pos_x = 8.5;
+	game->player.pos_y = 2.5;
 
-	// plano
-	plane[0] = -dir[1] * 0.66;
-	plane[1] =  dir[0] * 0.66;
-	int i = -1;
+	// mock facing dir
+	double angle = 3.14159265358979323846 / 2;
+	game->player.dir_x = cos(angle);
+	game->player.dir_y = sin(angle);
+
+	int	i;
+
+	i = -1;
 	while (++i < WIDTH)
 	{
-		// calculando o raio
-		double cameraX = 2 * i / (double)WIDTH - 1.0;
-		double rayDir[2] = {dir[0] + plane[0] * cameraX, dir[1] + plane[1] * cameraX};
-		if (fabs(rayDir[0]) < 1e-6)
-			rayDir[0] = 1e-6;
-		if (fabs(rayDir[1]) < 1e-6)
-			rayDir[1] = 1e-6;
+		calc_delta(game, i);
+		calc_step(game);
+		launch_ray(game);
+		temp_drawwalls(game, i);
+	}
+}
 
-		//identificação de célula
-		int map[2] = {floor(pos[0]), floor (pos[1])};
+static void	calc_delta(t_game *game, int col)
+{
+	double	camera_x;
 
-		// distância delta
-		double deltaDis[2] = {1e30,1e30};
-		if (rayDir[0] != 0)
-			deltaDis[0] = fabs(1 / rayDir[0]);
-		if (rayDir[1] != 0)
-			deltaDis[1] = fabs(1 / rayDir[1]);
+	camera_x = 2 * col / (double)WIDTH - 1.0;
+	game->rc.ray_dir_x
+		= game->player.dir_x + -game->player.dir_y * 0.66 * camera_x;
+	game->rc.ray_dir_y
+		= game->player.dir_y + game->player.dir_x * 0.66 * camera_x;
+	if (fabs(game->rc.ray_dir_x) < 1e-6)
+		game->rc.ray_dir_x = 1e-6;
+	if (fabs(game->rc.ray_dir_y) < 1e-6)
+		game->rc.ray_dir_y = 1e-6;
+	game->rc.map_x = floor(game->player.pos_x);
+	game->rc.map_y = floor(game->player.pos_y);
+	game->rc.delta_dis_x = 1e30;
+	game->rc.delta_dis_y = 1e30;
+	if (game->rc.ray_dir_x != 0)
+		game->rc.delta_dis_x = fabs(1 / game->rc.ray_dir_x);
+	if (game->rc.ray_dir_y != 0)
+		game->rc.delta_dis_y = fabs(1 / game->rc.ray_dir_y);
+}
 
-		// calcular step
-		int step[2];
-		double sideDist[2];
-		if (rayDir[0] < 0) {
-			step[0] = -1;
-			sideDist[0] = (pos[0] - map[0]) * deltaDis[0];
-		} else {
-			step[0] = 1;
-			sideDist[0] = (map[0] + 1.0 - pos[0]) *deltaDis[0];
+static void	calc_step(t_game *game)
+{
+	game->rc.step_x = 1;
+	game->rc.step_y = 1;
+	if (game->rc.ray_dir_x < 0)
+	{
+		game->rc.step_x = -1;
+		game->rc.side_dis_x
+			= (game->player.pos_x - game->rc.map_x) * game->rc.delta_dis_x;
+	}
+	else
+		game->rc.side_dis_x
+			= (game->rc.map_x + 1.0 - game->player.pos_x)
+			* game->rc.delta_dis_x;
+	if (game->rc.ray_dir_y < 0)
+	{
+		game->rc.step_y = -1;
+		game->rc.side_dis_y
+			= (game->player.pos_y - game->rc.map_y) * game->rc.delta_dis_y;
+	}
+	else
+		game->rc.side_dis_y
+			= (game->rc.map_y + 1.0 - game->player.pos_y)
+			* game->rc.delta_dis_y;
+}
+
+static void	launch_ray(t_game *game)
+{
+	bool	hit;
+	int		side;
+
+	hit = false;
+	while (!hit)
+	{
+		if (game->rc.side_dis_x < game->rc.side_dis_y)
+		{
+			game->rc.side_dis_x += game->rc.delta_dis_x;
+			game->rc.map_x += game->rc.step_x;
+			side = 0;
 		}
-		if (rayDir[1] < 0) {
-			step[1] = -1;
-			sideDist[1] = (pos[1] - map[1]) * deltaDis[1];
-		} else {
-			step[1] = 1;
-			sideDist[1] = (map[1] + 1.0 - pos[1]) *deltaDis[1];
+		else
+		{
+			game->rc.side_dis_y += game->rc.delta_dis_y;
+			game->rc.map_y += game->rc.step_y;
+			side = 1;
 		}
+		if (game->map.map[(game->rc.map_y)][(game->rc.map_x)] == '1')
+			hit = true;
+	}
+	calc_perp_wal_dis(game, side);
+}
 
-		// atingir parede mais prox
-		bool hit = false;
-		int side;
-		while (!hit) {
-			if (sideDist[0] < sideDist[1]) {
-				sideDist[0] += deltaDis[0];
-				map[0] += step[0];
-				side = 0;
-			} else {
-				sideDist[1] += deltaDis[1];
-				map[1] += step[1];
-				side  = 1;
-			}
-			if (game->map.map[(map[1])][(map[0])] == '1')
-				hit = true;
-		}
+static void	calc_perp_wal_dis(t_game *game, int side)
+{
+	if (side == 0)
+	{
+		game->rc.perp_wall_dis
+			= (game->rc.map_x - game->player.pos_x
+				+ (1 - game->rc.step_x) / 2) / game->rc.ray_dir_x;
+	}
+	else
+	{
+		game->rc.perp_wall_dis
+			= (game->rc.map_y - game->player.pos_y
+				+ (1 - game->rc.step_y) / 2) / game->rc.ray_dir_y;
+	}
+}
 
-		// distancia perpendicular (zoio de pexe)
-		double perpWallDist;
-		if (side == 0) {
-			perpWallDist= (map[0] - pos[0] + (1 - step[0]) / 2) / rayDir[0];
-		} else {
-			perpWallDist= (map[1] - pos[1] + (1 - step[1]) / 2) / rayDir[1];
-		}
+// temporario
+static void	temp_drawwalls(t_game *game, int col)
+{
+	int	line_height;
+	int	draw_start;
+	int	draw_end;
+	int	i;
 
-		// desenhar paredes
-		int lineHeight = HEIGHT / perpWallDist;
-		int drawStart = -lineHeight / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
-		int drawEnd = lineHeight / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
-		if (drawStart < 0)
-			drawStart = 0;
-		if (drawEnd >= HEIGHT)
-			drawEnd = HEIGHT - 1;
-		for (int y = drawStart; y <= drawEnd; y++)
-			mlx_put_pixel(game->img, i, y, 0xFFFFFF);
+	line_height = HEIGHT / game->rc.perp_wall_dis;
+	draw_start = -line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
+	draw_end = line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
+	if (draw_start < 0)
+		draw_start = 0;
+	if (draw_end >= HEIGHT)
+		draw_end = HEIGHT - 1;
+	i = draw_start;
+	while (i <= draw_end)
+	{
+		mlx_put_pixel(game->img, col, i, 0xFFFFFFFF);
+		i++;
 	}
 }
