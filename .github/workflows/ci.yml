@@ -73,8 +73,10 @@ jobs:
           echo "Map not found!"
           exit 1
         fi
+        set +e 
         xvfb-run -a timeout 2s ./build/cub3d maps/retr0_dungeon.cub
         EXIT_CODE=$?
+        set -e
         if [ $EXIT_CODE -eq 124 ]; then
           echo "Exit code $EXIT_CODE: Program timed out (expected)"
         elif [ $EXIT_CODE -ne 0 ]; then
