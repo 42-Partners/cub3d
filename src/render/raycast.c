@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/24 03:32:14 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/25 20:54:29 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,23 @@ static void	calc_step(t_game *game);
 static void	launch_ray(t_game *game);
 static void	calc_perp_wal_dis(t_game *game);
 // temporario
-static void	temp_drawwalls(t_game *game, int col);
+// static void	temp_drawwalls(t_game *game, int col);
 
 void	raycast(t_game *game)
 {
-	// mock de player
-	game->player.pos_x = 8.5;
-	game->player.pos_y = 2.5;
-
-	// mock facing dir
-	double angle = 3.14159265358979323846 / 2;
-	game->player.dir_x = cos(angle);
-	game->player.dir_y = sin(angle);
-
 	int	i;
 
+	game->player.dir_x = cos(game->player.angle);
+	game->player.dir_y = sin(game->player.angle);
 	i = -1;
 	while (++i < WIDTH)
 	{
 		calc_delta(game, i);
 		calc_step(game);
 		launch_ray(game);
-		temp_drawwalls(game, i);
 	}
 }
+// temp_drawwalls(game, i);
 
 static void	calc_delta(t_game *game, int col)
 {
@@ -147,31 +140,31 @@ static void	calc_perp_wal_dis(t_game *game)
 }
 
 // temporario
-static void	temp_drawwalls(t_game *game, int col)
-{
-	int	line_height;
-	int	draw_start;
-	int	draw_end;
-	int	i;
+// static void	temp_drawwalls(t_game *game, int col)
+// {
+// 	int	line_height;
+// 	int	draw_start;
+// 	int	draw_end;
+// 	int	i;
 
-	line_height = HEIGHT / game->rc.perp_wall_dis;
-	draw_start = -line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
-	draw_end = line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
-	if (draw_start < 0)
-		draw_start = 0;
-	if (draw_end >= HEIGHT)
-		draw_end = HEIGHT - 1;
-	i = draw_start;
-	while (i <= draw_end)
-	{
-		if (game->player.facing == NO) // zul
-			mlx_put_pixel(game->img, col, i, 0x000FFFFF);
-		else if (game->player.facing == SO) // marelo
-			mlx_put_pixel(game->img, col, i, 0xFFFF00FF);
-		else if (game->player.facing == EA) // verdin
-			mlx_put_pixel(game->img, col, i, 0x00FF00FF);
-		else if (game->player.facing == WE) // vremeio
-			mlx_put_pixel(game->img, col, i, 0xFF0000FF);
-		i++;
-	}
-}
+// 	line_height = HEIGHT / game->rc.perp_wall_dis;
+// 	draw_start = -line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
+// 	draw_end = line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
+// 	if (draw_start < 0)
+// 		draw_start = 0;
+// 	if (draw_end >= HEIGHT)
+// 		draw_end = HEIGHT - 1;
+// 	i = draw_start;
+// 	while (i <= draw_end)
+// 	{
+// 		if (game->player.facing == NO) // zul
+// 			mlx_put_pixel(game->img, col, i, 0x000FFFFF);
+// 		else if (game->player.facing == SO) // marelo
+// 			mlx_put_pixel(game->img, col, i, 0xFFFF00FF);
+// 		else if (game->player.facing == EA) // verdin
+// 			mlx_put_pixel(game->img, col, i, 0x00FF00FF);
+// 		else if (game->player.facing == WE) // vremeio
+// 			mlx_put_pixel(game->img, col, i, 0xFF0000FF);
+// 		i++;
+// 	}
+// }
