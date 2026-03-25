@@ -62,7 +62,6 @@ typedef struct s_raycast
 	double	wall_x;
 }	t_raycast;
 
-
 typedef struct s_map
 {
 	char	**map;
