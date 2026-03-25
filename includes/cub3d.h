@@ -25,6 +25,7 @@ typedef struct s_player
 {
 	double	pos_x;
 	double	pos_y;
+	double	angle;
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;

@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 17:37:19 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/25 16:48:28 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/25 17:19:14 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,20 +67,11 @@ static int	validate_char(char c)
 static void	flood_fill(t_game *game, int x, int y)
 {
 	if (y < 0 || y >= game->map.rows)
-	{
-		ft_printf("saiu do mapa horizontalmente\n");
 		error_exit(game, "Invalid map");
-	}
 	if (x < 0 || (size_t)x >= ft_strlen(game->map.copy[y]))
-	{
-		ft_printf("saiu do mapa verticalmente\n");
 		error_exit(game, "Invalid map");
-	}
 	if (game->map.copy[y][x] == ' ')
-	{
-		ft_printf("encontrou espaço\n");
 		error_exit(game, "Invalid map");
-	}
 	if (game->map.copy[y][x] == '1' || game->map.copy[y][x] == 'V')
 		return ;
 	game->map.copy[y][x] = 'V';

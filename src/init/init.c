@@ -6,11 +6,13 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:06:10 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/25 17:05:52 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/25 17:20:10 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+#include <math.h>
 
 void	init_game(t_game *game)
 {
@@ -32,13 +34,15 @@ void	init_player_vectors(t_game *game)
 	
 	orientation = game->player.orientation;
 	if (orientation == 'N')
-		game->player.dir_y = -1;
+		game->player.angle = -M_PI / 2;
 	else if (orientation == 'S')
-		game->player.dir_y = 1;
+		game->player.angle = M_PI / 2;
 	else if (orientation == 'E')
-		game->player.dir_x = 1;
+		game->player.angle = 0;
 	else if (orientation == 'W')
-		game->player.dir_x = -1;
+		game->player.angle = M_PI;
+	game->player.dir_x = cos(game->player.angle);
+	game->player.dir_y = sin(game->player.angle);
 	game->player.plane_x = -game->player.dir_y * 0.66;
 	game->player.plane_y = game->player.dir_x * 0.66;
 }
