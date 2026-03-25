@@ -101,29 +101,29 @@ static bool	add_row(t_game *game, char *row)
 
 static void	set_map_size(t_game *game)
 {
-	int	max_y;
-	int	y;
+	int	max_x;
 	int	x;
+	int	y;
 
-	x = 0;
-	max_y = 0;
-	while (game->map.map[x])
+	y = 0;
+	max_x = 0;
+	while (game->map.map[y])
 	{
-		y = 0;
-		while (game->map.map[x][y] && game->map.map[x][y] != '\n')
+		x = 0;
+		while (game->map.map[y][x] && game->map.map[y][x] != '\n')
 		{
-			if (y == INT_MAX - 10)
+			if (x == INT_MAX - 10)
 				error_exit(game, "Map too big");
-			if (y > max_y)
-				max_y = y;
-			y++;
+			if (x > max_x)
+				max_x = x;
+			x++;
 		}
-		if (x == INT_MAX - 10)
+		if (y == INT_MAX - 10)
 			error_exit(game, "Map too big");
-		x++;
+		y++;
 	}
-	if (max_y < 2 || x < 2)
+	if (max_x < 2 || y < 2)
 		error_exit(game, "Invalid map");
-	game->map.rows = x;
-	game->map.cols = max_y + 1;
+	game->map.rows = y;
+	game->map.cols = max_x + 1;
 }
