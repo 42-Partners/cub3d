@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 17:37:19 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/25 13:03:23 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/25 16:48:28 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	validate_map(t_game *game)
 	copy_map(game);
 	flood_fill(game, (int)game->player.pos_x, (int)game->player.pos_y);
 }
-// 
+
 static void	validate_row(t_game *game, int *spawn, int y)
 {
 	char	c;
@@ -81,7 +81,7 @@ static void	flood_fill(t_game *game, int x, int y)
 		ft_printf("encontrou espaço\n");
 		error_exit(game, "Invalid map");
 	}
-	else if (game->map.copy[y][x] == '1' || game->map.copy[y][x] == 'V')
+	if (game->map.copy[y][x] == '1' || game->map.copy[y][x] == 'V')
 		return ;
 	game->map.copy[y][x] = 'V';
 	flood_fill(game, x + 1, y);
