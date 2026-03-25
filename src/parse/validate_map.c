@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 17:37:19 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/21 01:02:48 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/25 17:19:14 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@ static void	copy_map(t_game *game);
 void	validate_map(t_game *game)
 {
 	int		spawn;
-	int		x;
+	int		y;
 
 	spawn = 0;
-	x = 0;
-	while (game->map.map[x])
+	y = 0;
+	while (game->map.map[y])
 	{
-		validate_row(game, &spawn, x);
-		x++;
+		validate_row(game, &spawn, y);
+		y++;
 	}
 	if (spawn != 1)
 		error_exit(game, "Invalid map");
@@ -35,25 +35,26 @@ void	validate_map(t_game *game)
 	flood_fill(game, (int)game->player.pos_x, (int)game->player.pos_y);
 }
 
-static void	validate_row(t_game *game, int *spawn, int x)
+static void	validate_row(t_game *game, int *spawn, int y)
 {
 	char	c;
-	int		y;
+	int		x;
 
-	y = 0;
-	while (game->map.map[x][y])
+	x = 0;
+	while (game->map.map[y][x])
 	{
-		c = game->map.map[x][y];
+		c = game->map.map[y][x];
 		if (!validate_char(c))
 			error_exit(game, "Invalid map");
 		if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 		{
-			game->player.pos_x = x;
-			game->player.pos_y = y;
-			game->player.orientation = game->map.map[x][y];
+			game->player.pos_x = x + 0.5;
+			game->player.pos_y = y + 0.5;
+			game->player.orientation = game->map.map[y][x];
+			game->map.map[y][x] = '0';
 			(*spawn)++;
 		}
-		y++;
+		x++;
 	}
 }
 
@@ -65,23 +66,19 @@ static int	validate_char(char c)
 
 static void	flood_fill(t_game *game, int x, int y)
 {
-	if (x < 0 || x >= game->map.rows)
+	if (y < 0 || y >= game->map.rows)
 		error_exit(game, "Invalid map");
-	if (y < 0 || (size_t)y >= ft_strlen(game->map.copy[x]))
+	if (x < 0 || (size_t)x >= ft_strlen(game->map.copy[y]))
 		error_exit(game, "Invalid map");
-	if (game->map.copy[x][y] == ' ')
+	if (game->map.copy[y][x] == ' ')
 		error_exit(game, "Invalid map");
-	else if (game->map.copy[x][y] == '1' || game->map.copy[x][y] == 'V')
+	if (game->map.copy[y][x] == '1' || game->map.copy[y][x] == 'V')
 		return ;
-	game->map.copy[x][y] = 'V';
+	game->map.copy[y][x] = 'V';
 	flood_fill(game, x + 1, y);
 	flood_fill(game, x - 1, y);
 	flood_fill(game, x, y + 1);
 	flood_fill(game, x, y - 1);
-	flood_fill(game, x + 1, y + 1);
-	flood_fill(game, x - 1, y - 1);
-	flood_fill(game, x + 1, y - 1);
-	flood_fill(game, x - 1, y + 1);
 }
 
 static void	copy_map(t_game *game)

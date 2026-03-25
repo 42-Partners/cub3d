@@ -25,11 +25,14 @@ typedef struct s_player
 {
 	double	pos_x;
 	double	pos_y;
+	double	angle;
 	double	dir_x;
 	double	dir_y;
-	double	orientation;
+	double	plane_x;
+	double	plane_y;
 	double	move_speed;
 	double	rot_speed;
+	char	orientation;
 }	t_player;
 
 typedef struct s_map
@@ -72,6 +75,7 @@ typedef struct s_game
 }	t_game;
 
 void	init_game(t_game *game);
+void	init_player_vectors(t_game *game);
 
 void	validate_input(t_game *game, int argc, char *filename);
 bool	parse_textures(t_game *game, char *file_name, int flag);
