@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:06:10 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/25 17:24:09 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/26 17:59:28 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

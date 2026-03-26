@@ -20,6 +20,15 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define CAMERA_HEIGHT 0
+
+typedef enum e_direction
+{
+	SO,
+	NO,
+	WE,
+	EA
+}	t_direction;
 
 typedef struct s_player
 {
@@ -33,7 +42,25 @@ typedef struct s_player
 	double	move_speed;
 	double	rot_speed;
 	char	orientation;
+	int		facing;
 }	t_player;
+
+typedef struct s_raycast
+{
+	double	ray_dir_x;
+	double	ray_dir_y;
+	int		step_x;
+	int		step_y;
+	double	side_dis_x;
+	double	side_dis_y;
+	double	perp_wall_dis;
+	double	delta_dis_x;
+	double	delta_dis_y;
+	int		map_x;
+	int		map_y;
+	int		side;
+	double	wall_x;
+}	t_raycast;
 
 typedef struct s_map
 {
@@ -69,6 +96,7 @@ typedef struct s_game
 	int				celing_color;
 	t_map			map;
 	t_player		player;
+	t_raycast		rc;
 	t_input			input;
 	t_textures		textures;
 	mlx_image_t		*img;
@@ -85,6 +113,7 @@ bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
 void	render_frame(t_game *game);
+void	raycast(t_game *game);
 
 void	handle_key(mlx_key_data_t keydata, void *param);
 

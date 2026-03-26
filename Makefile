@@ -24,6 +24,7 @@ SRC				:= 	main.c \
 					parse/validate_input.c \
 					parse/validate_map.c \
 					render/render.c \
+					render/raycast.c \
 					render/draw.c \
 					hooks/key_hooks.c \
 					hooks/player_keys.c \
