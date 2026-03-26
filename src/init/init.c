@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:06:10 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/25 21:46:10 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/26 17:59:28 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	init_player_vectors(t_game *game)
 	if (orientation == 'N')
 		game->player.angle = -M_PI / 2;
 	else if (orientation == 'S')
-		game->player.angle = -M_PI / 1.5;
+		game->player.angle = M_PI / 2;
 	else if (orientation == 'E')
 		game->player.angle = 0;
 	else if (orientation == 'W')

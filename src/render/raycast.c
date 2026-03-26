@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/26 01:26:45 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/26 18:03:36 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	raycast(t_game *game)
 {
 	int	i;
 
-	game->player.dir_x = cos(game->player.angle);
-	game->player.dir_y = sin(game->player.angle);
 	i = -1;
 	while (++i < WIDTH)
 	{
@@ -120,9 +118,9 @@ static void	calc_perp_wal_dis(t_game *game)
 		game->rc.wall_x
 			= game->player.pos_y + game->rc.perp_wall_dis * game->rc.ray_dir_y;
 		if (game->rc.ray_dir_x > 0)
-			game->player.facing = WE;
-		else
 			game->player.facing = EA;
+		else
+			game->player.facing = WE;
 	}
 	else
 	{
@@ -132,9 +130,9 @@ static void	calc_perp_wal_dis(t_game *game)
 		game->rc.wall_x
 			= game->player.pos_x + game->rc.perp_wall_dis * game->rc.ray_dir_x;
 		if (game->rc.ray_dir_y > 0)
-			game->player.facing = NO;
-		else
 			game->player.facing = SO;
+		else
+			game->player.facing = NO;
 	}
 	game->rc.wall_x -= floor(game->rc.wall_x);
 }
