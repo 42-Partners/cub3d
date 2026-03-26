@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/25 20:54:29 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/25 23:36:45 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	calc_step(t_game *game);
 static void	launch_ray(t_game *game);
 static void	calc_perp_wal_dis(t_game *game);
 // temporario
-// static void	temp_drawwalls(t_game *game, int col);
+static void	temp_drawwalls(t_game *game, int col);
 
 void	raycast(t_game *game)
 {
@@ -120,9 +120,9 @@ static void	calc_perp_wal_dis(t_game *game)
 		game->rc.wall_x
 			= game->player.pos_y + game->rc.perp_wall_dis * game->rc.ray_dir_y;
 		if (game->rc.ray_dir_x > 0)
-				game->player.facing = WE;
+			game->player.facing = WE;
 		else
-				game->player.facing = EA;
+			game->player.facing = EA;
 	}
 	else
 	{
@@ -132,9 +132,9 @@ static void	calc_perp_wal_dis(t_game *game)
 		game->rc.wall_x
 			= game->player.pos_x + game->rc.perp_wall_dis * game->rc.ray_dir_x;
 		if (game->rc.ray_dir_y > 0)
-				game->player.facing = NO;
+			game->player.facing = NO;
 		else
-				game->player.facing = SO;
+			game->player.facing = SO;
 	}
 	game->rc.wall_x -= floor(game->rc.wall_x);
 }
