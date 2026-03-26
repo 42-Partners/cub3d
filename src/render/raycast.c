@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/25 23:36:45 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/26 01:26:45 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	calc_step(t_game *game);
 static void	launch_ray(t_game *game);
 static void	calc_perp_wal_dis(t_game *game);
 // temporario
-static void	temp_drawwalls(t_game *game, int col);
+// static void	temp_drawwalls(t_game *game, int col);
 
 void	raycast(t_game *game)
 {
