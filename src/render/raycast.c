@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/26 18:03:36 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/28 15:35:51 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,23 @@
 static void	calc_delta(t_game *game, int col);
 static void	calc_step(t_game *game);
 static void	launch_ray(t_game *game);
-static void	calc_perp_wal_dis(t_game *game);
+static void	calc_perp_wall_dis(t_game *game);
 // temporario
 // static void	temp_drawwalls(t_game *game, int col);
 
 void	raycast(t_game *game)
 {
-	int	i;
+	int	col;
 
-	i = -1;
-	while (++i < WIDTH)
+	col = -1;
+	while (++col < WIDTH)
 	{
-		calc_delta(game, i);
+		calc_delta(game, col);
 		calc_step(game);
 		launch_ray(game);
+		temp_drawwalls(game, col);
 	}
 }
-// temp_drawwalls(game, i);
 
 static void	calc_delta(t_game *game, int col)
 {
@@ -40,15 +40,9 @@ static void	calc_delta(t_game *game, int col)
 
 	camera_x = 2 * col / (double)WIDTH - 1.0;
 	game->rc.ray_dir_x
-		= game->player.dir_x + -game->player.dir_y * 0.66 * camera_x;
+		= game->player.dir_x + game->player.plane_x * camera_x;
 	game->rc.ray_dir_y
-		= game->player.dir_y + game->player.dir_x * 0.66 * camera_x;
-	if (fabs(game->rc.ray_dir_x) < 1e-6)
-		game->rc.ray_dir_x = 1e-6;
-	if (fabs(game->rc.ray_dir_y) < 1e-6)
-		game->rc.ray_dir_y = 1e-6;
-	game->rc.map_x = floor(game->player.pos_x);
-	game->rc.map_y = floor(game->player.pos_y);
+		= game->player.dir_y + game->player.plane_y * camera_x;
 	game->rc.delta_dis_x = 1e30;
 	game->rc.delta_dis_y = 1e30;
 	if (game->rc.ray_dir_x != 0)
@@ -61,6 +55,8 @@ static void	calc_step(t_game *game)
 {
 	game->rc.step_x = 1;
 	game->rc.step_y = 1;
+	game->rc.map_x = floor(game->player.pos_x);
+	game->rc.map_y = floor(game->player.pos_y);
 	if (game->rc.ray_dir_x < 0)
 	{
 		game->rc.step_x = -1;
@@ -68,18 +64,16 @@ static void	calc_step(t_game *game)
 			= (game->player.pos_x - game->rc.map_x) * game->rc.delta_dis_x;
 	}
 	else
-		game->rc.side_dis_x
-			= (game->rc.map_x + 1.0 - game->player.pos_x)
+		game->rc.side_dis_x = (game->rc.map_x + 1.0 - game->player.pos_x)
 			* game->rc.delta_dis_x;
 	if (game->rc.ray_dir_y < 0)
 	{
 		game->rc.step_y = -1;
-		game->rc.side_dis_y
-			= (game->player.pos_y - game->rc.map_y) * game->rc.delta_dis_y;
+		game->rc.side_dis_y = (game->player.pos_y - game->rc.map_y)
+			* game->rc.delta_dis_y;
 	}
 	else
-		game->rc.side_dis_y
-			= (game->rc.map_y + 1.0 - game->player.pos_y)
+		game->rc.side_dis_y = (game->rc.map_y + 1.0 - game->player.pos_y)
 			* game->rc.delta_dis_y;
 }
 
@@ -102,13 +96,13 @@ static void	launch_ray(t_game *game)
 			game->rc.map_y += game->rc.step_y;
 			game->rc.side = 1;
 		}
-		if (game->map.map[(game->rc.map_y)][(game->rc.map_x)] == '1')
+		if (game->map.map[game->rc.map_y][game->rc.map_x] == '1')
 			hit = true;
 	}
-	calc_perp_wal_dis(game);
+	calc_perp_wall_dis(game);
 }
 
-static void	calc_perp_wal_dis(t_game *game)
+static void	calc_perp_wall_dis(t_game *game)
 {
 	if (game->rc.side == 0)
 	{
