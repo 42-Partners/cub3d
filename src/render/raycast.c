@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/26 18:03:36 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/03/29 23:28:51 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,20 @@ static void	calc_delta(t_game *game, int col);
 static void	calc_step(t_game *game);
 static void	launch_ray(t_game *game);
 static void	calc_perp_wal_dis(t_game *game);
-// temporario
-// static void	temp_drawwalls(t_game *game, int col);
 
 void	raycast(t_game *game)
 {
-	int	i;
+	int	y;
 
-	i = -1;
-	while (++i < WIDTH)
+	y = -1;
+	while (++y < WIDTH)
 	{
-		calc_delta(game, i);
+		calc_delta(game, y);
 		calc_step(game);
 		launch_ray(game);
+		render_col(game, y);
 	}
 }
-// temp_drawwalls(game, i);
 
 static void	calc_delta(t_game *game, int col)
 {
@@ -136,33 +134,3 @@ static void	calc_perp_wal_dis(t_game *game)
 	}
 	game->rc.wall_x -= floor(game->rc.wall_x);
 }
-
-// temporario
-// static void	temp_drawwalls(t_game *game, int col)
-// {
-// 	int	line_height;
-// 	int	draw_start;
-// 	int	draw_end;
-// 	int	i;
-
-// 	line_height = HEIGHT / game->rc.perp_wall_dis;
-// 	draw_start = -line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
-// 	draw_end = line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
-// 	if (draw_start < 0)
-// 		draw_start = 0;
-// 	if (draw_end >= HEIGHT)
-// 		draw_end = HEIGHT - 1;
-// 	i = draw_start;
-// 	while (i <= draw_end)
-// 	{
-// 		if (game->player.facing == NO) // zul
-// 			mlx_put_pixel(game->img, col, i, 0x000FFFFF);
-// 		else if (game->player.facing == SO) // marelo
-// 			mlx_put_pixel(game->img, col, i, 0xFFFF00FF);
-// 		else if (game->player.facing == EA) // verdin
-// 			mlx_put_pixel(game->img, col, i, 0x00FF00FF);
-// 		else if (game->player.facing == WE) // vremeio
-// 			mlx_put_pixel(game->img, col, i, 0xFF0000FF);
-// 		i++;
-// 	}
-// }

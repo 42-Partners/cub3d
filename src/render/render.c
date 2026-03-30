@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:06:31 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/13 18:12:23 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/29 23:19:43 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ void	render(void *param)
 
 	game = (t_game *)param;
 	clear_frame(game);
-	render_frame(game);
+	render_background(game);
+	raycast(game);
 }

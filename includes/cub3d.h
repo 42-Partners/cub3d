@@ -60,6 +60,9 @@ typedef struct s_raycast
 	int		map_y;
 	int		side;
 	double	wall_x;
+	int		line_height;
+	int		draw_start;
+	int		draw_end;
 }	t_raycast;
 
 typedef struct s_map
@@ -112,7 +115,8 @@ void	validate_map(t_game *game);
 bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
-void	render_frame(t_game *game);
+void	render_background(t_game *game);
+void	render_col(t_game *game, int col);
 void	raycast(t_game *game);
 
 void	handle_key(mlx_key_data_t keydata, void *param);
