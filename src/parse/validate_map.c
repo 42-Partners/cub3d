@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: rafaoliv <rafaoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/19 17:37:19 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/25 17:19:14 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/03/31 16:15:10 by rafaoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ static void	flood_fill(t_game *game, int x, int y)
 	flood_fill(game, x - 1, y);
 	flood_fill(game, x, y + 1);
 	flood_fill(game, x, y - 1);
+	flood_fill(game, x + 1, y + 1);
+	flood_fill(game, x - 1, y - 1);
 }
 
 static void	copy_map(t_game *game)
