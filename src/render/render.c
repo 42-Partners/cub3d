@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:06:31 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 16:10:35 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/01 17:05:53 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	render(void *param)
 	clear_frame(game);
 	render_background(game);
 	raycast(game);
+	handle_movement(game);
 }

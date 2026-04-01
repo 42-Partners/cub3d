@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:03:36 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 16:12:31 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/01 17:05:29 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ static mlx_texture_t	*select_texture(t_game *game)
 		return (game->textures.ea);
 	else if (game->player.facing == WE)
 		return (game->textures.we);
+	return (NULL);
 }
 
 static uint32_t	convert_color(uint32_t color)
