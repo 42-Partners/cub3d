@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 19:46:26 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/12 19:57:05 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/01 16:16:33 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,13 @@ void	handle_rotation(t_game *game)
 		return ;
 	else if (game->input.left)
 		return ;
+}
+
+void	move_forward(t_game *game)
+{
+	double	new_x;
+	double	new_y;
+	
+	new_x = game->player.pos_x + game->player.dir_x * move_speed;
+	new_y = game->player.pos_y + game->player.dir_y * move_speed;
 }
