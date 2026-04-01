@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 19:46:26 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 17:13:31 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/01 17:41:38 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static void	move_backward(t_game *game)
 
 void	handle_movement(t_game *game)
 {
-	game->player.move_speed = game->mlx->delta_time * 2.0;
+	game->player.move_speed = game->mlx->delta_time * 2.2;
 	if (game->input.w)
 		move_forward(game);
 	if (game->input.a)

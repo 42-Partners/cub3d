@@ -121,6 +121,7 @@ void	raycast(t_game *game);
 
 void	handle_key(mlx_key_data_t keydata, void *param);
 void	handle_movement(t_game *game);
+void	handle_rotation(t_game *game);
 
 void	cleanup(t_game *game);
 void	error_exit(t_game *game, char *msg);

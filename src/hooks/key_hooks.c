@@ -6,7 +6,7 @@
 /*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:52:33 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 17:13:45 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/01 17:36:30 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void		handle_movement(t_game *game);
 void		handle_rotation(t_game *game);
 static void	handle_keypress(mlx_key_data_t keydata, t_game *game);
 static void	handle_keyrelease(mlx_key_data_t keydata, t_game *game);
-static void	handle_keyrepeat(t_game *game);
 
 void	handle_key(mlx_key_data_t keydata, void *param)
 {
@@ -27,8 +26,6 @@ void	handle_key(mlx_key_data_t keydata, void *param)
 		handle_keypress(keydata, game);
 	else if (keydata.action == MLX_RELEASE)
 		handle_keyrelease(keydata, game);
-	else if (keydata.action == MLX_REPEAT)
-		handle_keyrepeat(game);
 }
 
 static void	handle_keypress(mlx_key_data_t keydata, t_game *game)
@@ -64,9 +61,3 @@ static void	handle_keyrelease(mlx_key_data_t keydata, t_game *game)
 	else if (keydata.key == MLX_KEY_LEFT)
 		game->input.left = false;
 }
-
-static void	handle_keyrepeat(t_game *game)
-{
-	handle_movement(game);
-}
-// handle_rotation(game);
