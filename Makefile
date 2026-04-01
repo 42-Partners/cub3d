@@ -28,7 +28,8 @@ SRC				:= 	main.c \
 					render/raycast.c \
 					render/draw.c \
 					hooks/key_hooks.c \
-					hooks/player_keys.c \
+					hooks/handle_movement.c \
+					hooks/handle_rotation.c \
 					utils/cleanup.c
 
 OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
