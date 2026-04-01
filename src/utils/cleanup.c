@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:18:39 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/21 23:54:59 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/01 19:40:49 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	cleanup(t_game *game)
 		ft_free_arr(&game->map.map);
 	if (game->map.copy)
 		ft_free_arr(&game->map.copy);
+	clean_gnl(game->map.map_fd);
 }
 
 void	close_window(void *param)

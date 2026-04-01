@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_config.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/14 02:12:23 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/22 00:12:44 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/01 19:41:22 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	validate_config(t_game *game)
 			error_exit(game, "Malloc error");
 		if (!validate_line(game, aux, checks))
 		{
-			clean_gnl(game->map.map_fd);
 			free(aux);
 			error_exit(game, "Invalid configuration");
 		}

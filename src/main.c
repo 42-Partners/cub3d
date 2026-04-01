@@ -17,7 +17,7 @@ int	main(int argc, char *argv[])
 	t_game	game;
 
 	ft_memset(&game, 0, sizeof(t_game));
-	validate_input(&game, argc, argv[1]);
+	validate_file(&game, argc, argv[1]);
 	validate_map(&game);
 	init_player_vectors(&game);
 	init_game(&game);
