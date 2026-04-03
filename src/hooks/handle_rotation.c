@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_rotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:29:25 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 17:41:05 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/02 21:09:59 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,13 @@ static void	rotate(t_game *game, double speed)
 
 void	handle_rotation(t_game *game)
 {
-	game->player.rot_speed = game->mlx->delta_time * 1.1;
+	game->player.rot_speed = game->mlx->delta_time * 1.4;
 	if (game->input.right)
 		rotate(game, game->player.rot_speed);
-	else if (game->input.left)
+	if (game->input.left)
 		rotate(game, -game->player.rot_speed);
+	if (game->input.up && game->player.camera_height + 8 <= 400)
+		game->player.camera_height += 8;
+	if (game->input.down && game->player.camera_height - 8 >= -400)
+		game->player.camera_height -= 8;
 }

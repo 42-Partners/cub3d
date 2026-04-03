@@ -1,7 +1,7 @@
-NO ./textures/donut.png
-SO ./textures/donut.png
-WE ./textures/donut.png
-EA ./textures/donut.png
+NO ./textures/glass.png
+SO ./textures/glass.png
+WE ./textures/glass.png
+EA ./textures/glass.png
 
 F 220,100,0
 C 225,30,0

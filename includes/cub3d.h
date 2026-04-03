@@ -20,7 +20,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define CAMERA_HEIGHT 0
+# define CAMERA_HEIGHT -75
 
 typedef enum e_direction
 {
@@ -42,6 +42,7 @@ typedef struct s_player
 	double	move_speed;
 	double	rot_speed;
 	char	orientation;
+	int		camera_height;
 	int		facing;
 }	t_player;
 
@@ -63,6 +64,7 @@ typedef struct s_raycast
 	int		line_height;
 	int		draw_start;
 	int		draw_end;
+	int		offset_y;
 }	t_raycast;
 
 typedef struct s_map
@@ -82,6 +84,9 @@ typedef struct s_input
 	bool	d;
 	bool	left;
 	bool	right;
+	bool	up;
+	bool	down;
+	bool	shift;
 }	t_input;
 
 typedef struct s_textures
