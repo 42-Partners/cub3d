@@ -20,7 +20,6 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define CAMERA_HEIGHT -75
 
 typedef enum e_direction
 {
@@ -127,6 +126,7 @@ void	raycast(t_game *game);
 void	handle_key(mlx_key_data_t keydata, void *param);
 void	handle_movement(t_game *game);
 void	handle_rotation(t_game *game);
+void	mouse_hook(double xdelta, double ydelta, void *param);
 
 void	cleanup(t_game *game);
 void	error_exit(t_game *game, char *msg);

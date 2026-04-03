@@ -1,10 +1,10 @@
-NO ./textures/glass.png
-SO ./textures/glass.png
-WE ./textures/glass.png
-EA ./textures/glass.png
+NO ./textures/spikes.png
+SO ./textures/spikes.png
+WE ./textures/spikes.png
+EA ./textures/spikes.png
 
-F 220,100,0
-C 225,30,0
+F 0,0,0
+C 0,0,0
 
 111
 1N1

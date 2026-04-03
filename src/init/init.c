@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/11 16:06:10 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/03/26 17:59:28 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/03 16:21:04 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	init_game(t_game *game)
 	mlx_image_to_window(game->mlx, game->img, 0, 0);
 	mlx_close_hook(game->mlx, close_window, game);
 	mlx_key_hook(game->mlx, handle_key, game);
+	mlx_cursor_hook(game->mlx, &mouse_hook, game); // ghsgffffffararyjstath
 	mlx_loop_hook(game->mlx, render, game);
 }
 

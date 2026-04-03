@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:29:25 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/02 21:09:59 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/03 17:44:14 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,22 @@ void	handle_rotation(t_game *game)
 		game->player.camera_height += 8;
 	if (game->input.down && game->player.camera_height - 8 >= -400)
 		game->player.camera_height -= 8;
+}
+
+void	mouse_hook(double x, double y, void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+
+	while (x-- > WIDTH / 2)
+		rotate(game, game->mlx->delta_time * 0.05);
+	while (x++ < WIDTH / 2)
+		rotate(game, -game->mlx->delta_time * 0.05);
+	if (y < HEIGHT / 2 && game->player.camera_height + 4 <= 400)
+		game->player.camera_height += 4;
+	if (y > HEIGHT / 2 && game->player.camera_height - 4 >= -400)
+		game->player.camera_height -= 4;
+	mlx_set_mouse_pos(game->mlx, WIDTH / 2, HEIGHT / 2);
+	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
 }
