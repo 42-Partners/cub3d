@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:29:25 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/03 17:44:14 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/05 13:59:31 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	mouse_hook(double x, double y, void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
-
 	while (x-- > WIDTH / 2)
 		rotate(game, game->mlx->delta_time * 0.05);
 	while (x++ < WIDTH / 2)
