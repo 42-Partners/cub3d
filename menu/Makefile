@@ -19,7 +19,20 @@ INCLUDES		:=	$(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 SRC				:= main.c \
 					init/init.c \
 					utils/get_time.c \
-					utils/cleanup.c
+					utils/cleanup.c \
+					utils/exit.c \
+					hooks/key_hooks.c \
+					hooks/handle_cursor.c \
+					load/load_textures.c \
+					load/load_game.c \
+					scene/handle_scenes.c \
+					scene/render.c \
+					scene/scene00.c \
+					scene/scene01.c \
+					scene/scene02.c \
+					load/load_menu.c \
+					load/load_images.c
+
 OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
 DEP				:=	$(OBJ:.o=.d)
 
