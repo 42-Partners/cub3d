@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:06:31 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/16 17:50:33 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/23 00:45:16 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	render(void *param)
 	clear_frame(game);
 	render_background(game);
 	raycast(game);
+	render_minimap(game);
 	handle_movement(game);
 	handle_rotation(game);
 }

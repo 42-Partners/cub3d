@@ -24,9 +24,10 @@ SRC				:= 	main.c \
 					parse/validate_config.c \
 					parse/validate_file.c \
 					parse/validate_map.c \
-					render/render.c \
-					render/raycast.c \
 					render/draw.c \
+					render/minimap.c \
+					render/raycast.c \
+					render/render.c \
 					hooks/key_hooks.c \
 					hooks/handle_movement.c \
 					hooks/handle_rotation.c \
@@ -73,7 +74,7 @@ valgrind: $(NAME)
 	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes \
 	--suppressions=valgrind.supp -s ./$(NAME) maps/iron_maiden.cub
 
-bonus: $(LIBS)
+bonus: $(LIBS) $(NAME)
 	@$(MAKE) -C ./menu --silent
 	./menu/build/menu
 

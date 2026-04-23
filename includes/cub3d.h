@@ -20,6 +20,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define MINIMAP_SIZE 24
 
 typedef enum e_direction
 {
@@ -107,6 +108,7 @@ typedef struct s_game
 	t_input			input;
 	t_textures		textures;
 	mlx_image_t		*img;
+	bool			minimap;
 }	t_game;
 
 void	init_game(t_game *game);
@@ -121,6 +123,7 @@ bool	parse_color(t_game *game, char *line);
 void	render(void *param);
 void	render_background(t_game *game);
 void	render_col(t_game *game, int col);
+void	render_minimap(t_game *game);
 void	raycast(t_game *game);
 
 void	handle_key(mlx_key_data_t keydata, void *param);
