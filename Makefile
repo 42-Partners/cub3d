@@ -17,9 +17,12 @@ INCLUDES		:=	$(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 # Files
 SRC_DIR			:= 	src
 SRC				:= 	main.c \
+					hooks/handle_movement.c \
+					hooks/handle_rotation.c \
+					hooks/key_hooks.c \
 					init/init.c \
-					parse/parse_map.c \
 					parse/parse_color.c \
+					parse/parse_map.c \
 					parse/parse_textures.c \
 					parse/validate_config.c \
 					parse/validate_file.c \
@@ -28,9 +31,6 @@ SRC				:= 	main.c \
 					render/minimap.c \
 					render/raycast.c \
 					render/render.c \
-					hooks/key_hooks.c \
-					hooks/handle_movement.c \
-					hooks/handle_rotation.c \
 					utils/cleanup.c
 
 OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
@@ -94,7 +94,7 @@ re: fclean all
 
 norminette:
 	@echo "$(YELLOW)🧠 Running norminette...$(RESET)"
-	@norminette src includes
+	@norminette src includes menu
 
 game: $(NAME)
 	./build/cub3d maps/iron_maiden.cub

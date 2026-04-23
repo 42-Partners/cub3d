@@ -20,7 +20,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define MINIMAP_SIZE 24
+# define MINIMAP_SIZE 14
 
 typedef enum e_direction
 {

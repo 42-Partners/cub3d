@@ -6,7 +6,7 @@
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 16:38:48 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/04/23 08:38:32 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/23 09:18:52 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,13 @@ static uint32_t	get_color(t_game *game, int x, int y)
 	if (map_x < 0 || map_x >= game->map.cols
 		|| map_y < 0 || map_y >= game->map.rows)
 		return (game->celing_color);
+	else if (game->map.map[map_y][map_x] == '1')
+		return (game->floor_color);
 	else if (map_x == floor(game->player.pos_x)
 		&& map_y == floor(game->player.pos_y))
 		return (0xFFFFFFFF);
-	if (game->map.map[map_y][map_x] == '1')
-		return (game->floor_color);
 	return (game->celing_color);
 }
-
 
 void	render_minimap(t_game *game)
 {
