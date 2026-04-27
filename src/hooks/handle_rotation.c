@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_rotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:29:25 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/05 13:59:31 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/27 13:26:17 by devrafaelly      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

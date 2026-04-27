@@ -115,9 +115,9 @@ void	init_game(t_game *game);
 void	init_player_vectors(t_game *game);
 
 void	validate_file(t_game *game, int argc, char *filename);
-bool	parse_textures(t_game *game, char *file_name, int flag);
 void	validate_config(t_game *game);
 void	validate_map(t_game *game);
+bool	parse_textures(t_game *game, char *file_name, int flag);
 bool	parse_color(t_game *game, char *line);
 
 void	render(void *param);
