@@ -20,7 +20,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define CAMERA_HEIGHT 0
+# define MINIMAP_SIZE 14
 
 typedef enum e_direction
 {
@@ -42,6 +42,7 @@ typedef struct s_player
 	double	move_speed;
 	double	rot_speed;
 	char	orientation;
+	int		camera_height;
 	int		facing;
 }	t_player;
 
@@ -63,6 +64,7 @@ typedef struct s_raycast
 	int		line_height;
 	int		draw_start;
 	int		draw_end;
+	int		offset_y;
 }	t_raycast;
 
 typedef struct s_map
@@ -82,6 +84,9 @@ typedef struct s_input
 	bool	d;
 	bool	left;
 	bool	right;
+	bool	up;
+	bool	down;
+	bool	shift;
 }	t_input;
 
 typedef struct s_textures
@@ -103,6 +108,7 @@ typedef struct s_game
 	t_input			input;
 	t_textures		textures;
 	mlx_image_t		*img;
+	bool			minimap;
 }	t_game;
 
 void	init_game(t_game *game);
@@ -117,11 +123,13 @@ bool	parse_color(t_game *game, char *line);
 void	render(void *param);
 void	render_background(t_game *game);
 void	render_col(t_game *game, int col);
+void	render_minimap(t_game *game);
 void	raycast(t_game *game);
 
 void	handle_key(mlx_key_data_t keydata, void *param);
 void	handle_movement(t_game *game);
 void	handle_rotation(t_game *game);
+void	mouse_hook(double xdelta, double ydelta, void *param);
 
 void	cleanup(t_game *game);
 void	error_exit(t_game *game, char *msg);

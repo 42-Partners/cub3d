@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 18:52:33 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 17:36:30 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/19 16:34:39 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,14 @@ static void	handle_keypress(mlx_key_data_t keydata, t_game *game)
 		game->input.right = true;
 	else if (keydata.key == MLX_KEY_LEFT)
 		game->input.left = true;
+	else if (keydata.key == MLX_KEY_UP)
+		game->input.up = true;
+	else if (keydata.key == MLX_KEY_DOWN)
+		game->input.down = true;
+	else if (keydata.key == MLX_KEY_M)
+		game->minimap ^= 1;
+	else if (keydata.key == MLX_KEY_LEFT_SHIFT)
+		game->input.shift = true;
 }
 
 static void	handle_keyrelease(mlx_key_data_t keydata, t_game *game)
@@ -60,4 +68,10 @@ static void	handle_keyrelease(mlx_key_data_t keydata, t_game *game)
 		game->input.right = false;
 	else if (keydata.key == MLX_KEY_LEFT)
 		game->input.left = false;
+	else if (keydata.key == MLX_KEY_UP)
+		game->input.up = false;
+	else if (keydata.key == MLX_KEY_DOWN)
+		game->input.down = false;
+	else if (keydata.key == MLX_KEY_LEFT_SHIFT)
+		game->input.shift = false;
 }

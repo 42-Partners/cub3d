@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/13 18:06:31 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/23 00:45:16 by gustaoli         ###   ########.fr       */
+/*   Created: 2026/03/12 18:52:33 by devrafaelly       #+#    #+#             */
+/*   Updated: 2026/04/17 00:07:14 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "bonus.h"
 
-static void	clear_frame(t_game *game)
-{
-	ft_memset(game->img->pixels, 0,
-		game->img->width * game->img->height * sizeof(uint32_t));
-}
+static void	handle_keypress(mlx_key_data_t keydata, t_game *game);
 
-void	render(void *param)
+void	handle_key(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
 
 	game = (t_game *)param;
-	clear_frame(game);
-	render_background(game);
-	raycast(game);
-	render_minimap(game);
-	handle_movement(game);
-	handle_rotation(game);
+	if (keydata.action == MLX_PRESS)
+		handle_keypress(keydata, game);
+}
+
+static void	handle_keypress(mlx_key_data_t keydata, t_game *game)
+{
+	if (keydata.key == MLX_KEY_ESCAPE)
+		close_window((void *)game);
 }

@@ -1,4 +1,5 @@
-NAME			:=	build/cub3d
+
+NAME			:=	build/menu
 BUILD_DIR		:=	build
 
 CC				:=	cc
@@ -6,32 +7,31 @@ CFLAGS			:=	-Wextra -Wall -Werror -MMD -MP -Wunreachable-code -O0 -g
 LDFLAGS			:=	-ldl -lglfw -pthread -lm
 
 # Libraries
-LIBFT			:=	./libs/libft
-LIBMLX			:=	./libs/MLX42
+LIBFT			:=	../libs/libft
+LIBMLX			:=	../libs/MLX42
 LIBS			:=	$(LIBFT)/libft.a $(LIBMLX)/build/libmlx42.a 
 
 # Directories
-INCLUDE_DIRS	:=	includes $(LIBFT)/includes $(LIBMLX)/include
+INCLUDE_DIRS	:=	../includes $(LIBFT)/includes $(LIBMLX)/include
 INCLUDES		:=	$(foreach dir,$(INCLUDE_DIRS),-I$(dir))
 
 # Files
-SRC_DIR			:= 	src
-SRC				:= 	main.c \
-					hooks/handle_movement.c \
-					hooks/handle_rotation.c \
+SRC				:= main.c \
+					hooks/handle_cursor.c \
 					hooks/key_hooks.c \
 					init/init.c \
-					parse/parse_color.c \
-					parse/parse_map.c \
-					parse/parse_textures.c \
-					parse/validate_config.c \
-					parse/validate_file.c \
-					parse/validate_map.c \
-					render/draw.c \
-					render/minimap.c \
-					render/raycast.c \
-					render/render.c \
-					utils/cleanup.c
+					load/load_game.c \
+					load/load_images.c \
+					load/load_menu.c \
+					load/load_textures.c \
+					scene/handle_scenes.c \
+					scene/render.c \
+					scene/scene00.c \
+					scene/scene01.c \
+					scene/scene02.c \
+					utils/cleanup.c \
+					utils/exit.c \
+					utils/get_time.c
 
 OBJ				:=	$(patsubst %.c,$(BUILD_DIR)/%.o,$(SRC))
 DEP				:=	$(OBJ:.o=.d)
@@ -52,7 +52,7 @@ $(NAME): $(OBJ) $(LIBS)
 	@$(CC) $(OBJ) $(LIBS) $(LDFLAGS) -o $(NAME)
 	@echo "$(GREEN)✅ $(NAME) built successfully$(RESET)"
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
+$(BUILD_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
 	@$(eval COMPILED=$(shell echo $$(($(COMPILED)+1))))
 	@printf "$(BLUE)[%d/%d]$(RESET) Compiling %s\n" $(COMPILED) $(TOTAL_FILES) "$<"
@@ -74,14 +74,9 @@ valgrind: $(NAME)
 	@valgrind --leak-check=full --show-leak-kinds=all --track-fds=yes --track-origins=yes \
 	--suppressions=valgrind.supp -s ./$(NAME) maps/iron_maiden.cub
 
-bonus: $(LIBS) $(NAME)
-	@$(MAKE) -C ./menu --silent
-	./menu/build/menu
-
 clean:
 	@rm -rf $(BUILD_DIR)
 	@$(MAKE) clean -C $(LIBFT) --silent
-	@$(MAKE) clean -C ./menu --silent
 	@rm -rf $(LIBMLX)/build
 	@echo "$(RED)🧴 Object files removed.$(RESET)"
 
@@ -92,27 +87,6 @@ fclean: clean
 
 re: fclean all
 
-norminette:
-	@echo "$(YELLOW)🧠 Running norminette...$(RESET)"
-	@norminette src includes menu
-
-game: $(NAME)
-	./build/cub3d maps/iron_maiden.cub
-
-retro: $(NAME)
-	./build/cub3d maps/retr0_dungeon.cub
-
-invalid:  $(NAME)
-	@for file in maps/invalid/*; do \
-		echo -n "$(YELLOW)Running invalid file "; \
-		echo -n $$file; \
-		echo ": $(RESET)"; \
-		./build/cub3d $$file; \
-		if [ $$? -ne 1 ]; then \
-			echo "$(RED)>> Invalid file didn't return an error! ($$file) $(RESET)"; \
-		fi; \
-	done
-
 -include $(DEP)
 
-.PHONY: all clean fclean re norminette valgrind game invalid retro bonus
+.PHONY: all clean fclean re

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_rotation.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 16:29:25 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 17:41:05 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/05 13:59:31 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,30 @@ static void	rotate(t_game *game, double speed)
 
 void	handle_rotation(t_game *game)
 {
-	game->player.rot_speed = game->mlx->delta_time * 1.1;
+	game->player.rot_speed = game->mlx->delta_time * 1.4;
 	if (game->input.right)
 		rotate(game, game->player.rot_speed);
-	else if (game->input.left)
+	if (game->input.left)
 		rotate(game, -game->player.rot_speed);
+	if (game->input.up && game->player.camera_height + 8 <= 400)
+		game->player.camera_height += 8;
+	if (game->input.down && game->player.camera_height - 8 >= -400)
+		game->player.camera_height -= 8;
+}
+
+void	mouse_hook(double x, double y, void *param)
+{
+	t_game	*game;
+
+	game = (t_game *)param;
+	while (x-- > WIDTH / 2)
+		rotate(game, game->mlx->delta_time * 0.05);
+	while (x++ < WIDTH / 2)
+		rotate(game, -game->mlx->delta_time * 0.05);
+	if (y < HEIGHT / 2 && game->player.camera_height + 4 <= 400)
+		game->player.camera_height += 4;
+	if (y > HEIGHT / 2 && game->player.camera_height - 4 >= -400)
+		game->player.camera_height -= 4;
+	mlx_set_mouse_pos(game->mlx, WIDTH / 2, HEIGHT / 2);
+	mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
 }

@@ -1,10 +1,10 @@
-NO ./textures/donut.png
-SO ./textures/donut.png
-WE ./textures/donut.png
-EA ./textures/donut.png
+NO ./textures/spikes.png
+SO ./textures/spikes.png
+WE ./textures/spikes.png
+EA ./textures/spikes.png
 
-F 220,100,0
-C 225,30,0
+F 0,0,0
+C 0,0,0
 
 111
 1N1

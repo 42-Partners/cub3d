@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   draw.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: devrafaelly <devrafaelly@student.42.fr>    +#+  +:+       +#+        */
+/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/13 18:03:36 by devrafaelly       #+#    #+#             */
-/*   Updated: 2026/04/01 17:05:29 by devrafaelly      ###   ########.fr       */
+/*   Updated: 2026/04/03 15:28:57 by gustaoli         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	render_background(t_game *game)
 	while (x < WIDTH)
 	{
 		y = 0;
-		while (y < (HEIGHT / 2) + CAMERA_HEIGHT)
+		while ((int)y < (HEIGHT / 2) + game->player.camera_height)
 			mlx_put_pixel(game->img, x, y++, game->celing_color);
 		while (y < HEIGHT)
 			mlx_put_pixel(game->img, x, y++, game->floor_color);
@@ -40,18 +40,20 @@ void	render_col(t_game *game, int col)
 
 	game->rc.line_height = HEIGHT / game->rc.perp_wall_dis;
 	game->rc.draw_start
-		= -game->rc.line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
-	game->rc.draw_end = game->rc.line_height / 2 + HEIGHT / 2 + CAMERA_HEIGHT;
+		= -game->rc.line_height / 2 + HEIGHT / 2 + game->player.camera_height;
+	game->rc.draw_end
+		= game->rc.line_height / 2 + HEIGHT / 2 + game->player.camera_height;
+	game->rc.offset_y = 0;
 	if (game->rc.draw_start < 0)
+	{
+		game->rc.offset_y = -game->rc.draw_start;
 		game->rc.draw_start = 0;
+	}
 	if (game->rc.draw_end >= HEIGHT)
 		game->rc.draw_end = HEIGHT - 1;
 	y = game->rc.draw_start;
 	while (y <= game->rc.draw_end)
-	{
-		render_wall_pixel(game, select_texture(game), col, y);
-		y++;
-	}
+		render_wall_pixel(game, select_texture(game), col, y++);
 }
 
 static void	render_wall_pixel(t_game *game, mlx_texture_t *tex, int col, int y)
@@ -61,7 +63,8 @@ static void	render_wall_pixel(t_game *game, mlx_texture_t *tex, int col, int y)
 	int				tex_y;
 	uint32_t		color;
 
-	tex_pos = (double)(y - game->rc.draw_start) / game->rc.line_height;
+	tex_pos = (double)
+		(y - game->rc.draw_start + game->rc.offset_y) / game->rc.line_height;
 	if (tex_pos < 0)
 		tex_pos = 0;
 	if (tex_pos > 1)
