@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cursor.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: rafaoliv <rafaoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/15 04:44:00 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/04/17 02:36:55 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/28 14:50:43 by rafaoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	mouse_hook(double x, double y, void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
-	(void)game;
 	game->cursor_x = x;
 	game->cursor_y = y;
 }

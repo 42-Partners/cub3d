@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gustaoli <gustaoli@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: rafaoliv <rafaoliv@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/22 02:03:11 by gustaoli          #+#    #+#             */
-/*   Updated: 2026/03/29 23:28:51 by gustaoli         ###   ########.fr       */
+/*   Updated: 2026/04/28 15:18:58 by rafaoliv         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ static void	calc_perp_wal_dis(t_game *game);
 
 void	raycast(t_game *game)
 {
-	int	y;
+	int	col;
 
-	y = -1;
-	while (++y < WIDTH)
+	col = -1;
+	while (++col < WIDTH)
 	{
-		calc_delta(game, y);
+		calc_delta(game, col);
 		calc_step(game);
 		launch_ray(game);
-		render_col(game, y);
+		render_col(game, col);
 	}
 }
 
@@ -38,15 +38,13 @@ static void	calc_delta(t_game *game, int col)
 
 	camera_x = 2 * col / (double)WIDTH - 1.0;
 	game->rc.ray_dir_x
-		= game->player.dir_x + -game->player.dir_y * 0.66 * camera_x;
+		= game->player.dir_x + game->player.plane_x * camera_x;
 	game->rc.ray_dir_y
-		= game->player.dir_y + game->player.dir_x * 0.66 * camera_x;
+		= game->player.dir_y + game->player.plane_y * camera_x;
 	if (fabs(game->rc.ray_dir_x) < 1e-6)
 		game->rc.ray_dir_x = 1e-6;
 	if (fabs(game->rc.ray_dir_y) < 1e-6)
 		game->rc.ray_dir_y = 1e-6;
-	game->rc.map_x = floor(game->player.pos_x);
-	game->rc.map_y = floor(game->player.pos_y);
 	game->rc.delta_dis_x = 1e30;
 	game->rc.delta_dis_y = 1e30;
 	if (game->rc.ray_dir_x != 0)
@@ -59,6 +57,8 @@ static void	calc_step(t_game *game)
 {
 	game->rc.step_x = 1;
 	game->rc.step_y = 1;
+	game->rc.map_x = floor(game->player.pos_x);
+	game->rc.map_y = floor(game->player.pos_y);
 	if (game->rc.ray_dir_x < 0)
 	{
 		game->rc.step_x = -1;

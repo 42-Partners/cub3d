@@ -25,9 +25,9 @@ Vector
 
 ### Requirements
 
-- gcc
+- cc
 - Make
-- MLX42 (or MiniLibX depending on your setup)
+- Codam MLX42
 - libft
 
 ---
@@ -37,16 +37,26 @@ Vector
 ```bash
 make
 ```
+
 ### Execution
 
 ```bash
-./cub3d maps/your_map.cub
+./build/cub3d maps/your_map.cub
 ```
+
+### Bonus
+
+```bash
+make bonus
+```
+
 ### Controls
 
 - Move Player: W / A / S / D
-- Rotate View: ← / →
+- Rotate View: ← / → / mouse
 - Exit: ESC
+- Run: shift
+- Minimap: M
 
 ### Resources
 
