@@ -16,6 +16,8 @@ int	main(int argc, char *argv[])
 {
 	t_game	game;
 
+	ft_printf("[CUB3D] Iniciando executavel Web... Mapa recebido: %s\n",
+		argv[1]);
 	ft_memset(&game, 0, sizeof(t_game));
 	validate_file(&game, argc, argv[1]);
 	validate_map(&game);
