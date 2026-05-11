@@ -1,0 +1,58 @@
+name: Cub3d CD
+
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Emscripten (emsdk)
+        uses: mymindstorm/setup-emsdk@v14
+
+      - name: Compile C to WebAssembly
+        run: |
+          mkdir -p build
+          cd build
+
+          PRELOAD_FLAGS=""
+          if [ -d "../maps" ]; then PRELOAD_FLAGS="$PRELOAD_FLAGS --preload-file ../maps@/maps"; fi
+          if [ -d "../textures" ]; then PRELOAD_FLAGS="$PRELOAD_FLAGS --preload-file ../textures@/textures"; fi
+          
+          export LDFLAGS="$PRELOAD_FLAGS"
+          
+          emcmake cmake .. -DPLATFORM=Web -DCMAKE_EXECUTABLE_SUFFIX=.html
+          emmake make
+
+      - name: Prepare Package & Inject Map Argument
+        run: |
+          mkdir -p out
+          
+          cp build/*.html out/index.html
+          cp build/*.js out/
+          cp build/*.wasm out/
+          cp build/*.data out/ 2>/dev/null || true
+
+          JS_FILE=$(ls out/*.js | head -n 1)
+          
+          MAP_ARG="/maps/vine_maze.cub"
+          
+          echo "var Module = typeof Module !== 'undefined' ? Module : {};" > temp.js
+          echo "Module.arguments = ['$MAP_ARG'];" >> temp.js
+          cat "$JS_FILE" >> temp.js
+          mv temp.js "$JS_FILE"
+
+      - name: Deploy to GitHub Pages 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: out
+          branch: gh-pages
