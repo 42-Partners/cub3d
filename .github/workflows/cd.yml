@@ -57,14 +57,24 @@ jobs:
             -s INITIAL_MEMORY=67108864 \
             -o out/index.html
 
-      - name: 4. Inject Map Argument
+      - name: 4. Inject Map Argument & Destroy Spinner Overlay
         run: |
           JS_FILE="out/index.js"
-          
           MAP_ARG="/maps/vine_maze.cub"
           
           echo "var Module = typeof Module !== 'undefined' ? Module : {};" > temp.js
+          
           echo "Module.arguments = ['$MAP_ARG'];" >> temp.js
+          
+          echo "Module.postRun = Module.postRun || [];" >> temp.js
+          echo "Module.postRun.push(function() {" >> temp.js
+          echo "  var elements = ['spinner', 'status', 'progress', 'loading'];" >> temp.js
+          echo "  elements.forEach(function(id) {" >> temp.js
+          echo "    var el = document.getElementById(id);" >> temp.js
+          echo "    if (el) el.style.display = 'none';" >> temp.js
+          echo "  });" >> temp.js
+          echo "});" >> temp.js
+
           cat "$JS_FILE" >> temp.js
           mv temp.js "$JS_FILE"
 
