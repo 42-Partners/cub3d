@@ -55,6 +55,7 @@ jobs:
             -s WASM=1 \
             -s ALLOW_MEMORY_GROWTH=1 \
             -s INITIAL_MEMORY=67108864 \
+            -s ASYNCIFY=1 \
             -o out/index.html
 
       - name: 4. Inject Map Argument & Force Kill Overlay
@@ -69,7 +70,7 @@ jobs:
           mv temp.js "$JS_FILE"
 
           echo "<style>#spinner, #status, #progress { display: none !important; }</style>" >> "$HTML_FILE"
-          
+
       - name: Deploy to GitHub Pages 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
