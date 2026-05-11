@@ -42,7 +42,7 @@ jobs:
 
           emcc src/*.c \
             libs/libft/libft.a libs/MLX42/build/libmlx42.a \
-            -I./includes -I./libs/MLX42/include/MLX42 -I./libs/libft \
+            -I./includes -I./libs/MLX42/include/MLX42 -I./libs/libft/includes \
             $PRELOAD_FLAGS \
             -O3 \
             -s USE_GLFW=3 \
