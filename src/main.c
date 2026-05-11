@@ -16,13 +16,14 @@ int	main(int argc, char *argv[])
 {
 	t_game	game;
 
-	ft_printf("[CUB3D] Iniciando executavel Web... Mapa recebido: %s\n",
-		argv[1]);
 	ft_memset(&game, 0, sizeof(t_game));
 	validate_file(&game, argc, argv[1]);
 	validate_map(&game);
+	ft_printf("[DEBUG]: Parsing OK!\n");
 	init_player_vectors(&game);
+	ft_printf("[DEBUG]: player vectors OK!\n");
 	init_game(&game);
+	ft_printf("[DEBUG]: game init!\n");
 	mlx_loop(game.mlx);
 	return (0);
 }
