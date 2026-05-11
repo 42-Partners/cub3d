@@ -51,6 +51,8 @@ jobs:
             -O3 \
             -s USE_GLFW=3 \
             -s WASM=1 \
+            -s ALLOW_MEMORY_GROWTH=1 \
+            -s INITIAL_MEMORY=67108864 \
             -o out/index.html
 
       - name: 4. Inject Map Argument
