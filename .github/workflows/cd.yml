@@ -22,6 +22,9 @@ jobs:
       - name: 1. Compile MLX42 for Web
         run: |
           cd libs/MLX42
+          git fetch origin
+          git checkout master || git checkout main
+          git pull origin master || git pull origin main
           mkdir -p build
           cd build
           emcmake cmake .. -DPLATFORM=Web
