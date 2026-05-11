@@ -19,30 +19,39 @@ jobs:
       - name: Setup Emscripten (emsdk)
         uses: mymindstorm/setup-emsdk@v14
 
-      - name: Compile C to WebAssembly
+      - name: 1. Compile MLX42 for Web
         run: |
+          cd libs/MLX42
           mkdir -p build
           cd build
-
-          PRELOAD_FLAGS=""
-          if [ -d "../maps" ]; then PRELOAD_FLAGS="$PRELOAD_FLAGS --preload-file ../maps@/maps"; fi
-          if [ -d "../textures" ]; then PRELOAD_FLAGS="$PRELOAD_FLAGS --preload-file ../textures@/textures"; fi
-          
-          export LDFLAGS="$PRELOAD_FLAGS"
-          
-          emcmake cmake .. -DPLATFORM=Web -DCMAKE_EXECUTABLE_SUFFIX=.html
+          emcmake cmake .. -DPLATFORM=Web
           emmake make
 
-      - name: Prepare Package & Inject Map Argument
+      - name: 2. Compile libft
         run: |
-          mkdir -p out
-          
-          cp build/*.html out/index.html
-          cp build/*.js out/
-          cp build/*.wasm out/
-          cp build/*.data out/ 2>/dev/null || true
+          cd libs/libft
+          emmake make
 
-          JS_FILE=$(ls out/*.js | head -n 1)
+      - name: 3. Compile Cub3D Sources to WebAssembly
+        run: |
+          PRELOAD_FLAGS=""
+          if [ -d "maps" ]; then PRELOAD_FLAGS="$PRELOAD_FLAGS --preload-file maps@/maps"; fi
+          if [ -d "textures" ]; then PRELOAD_FLAGS="$PRELOAD_FLAGS --preload-file textures@/textures"; fi
+          
+          mkdir -p out
+
+          emcc src/*.c \
+            libs/libft/libft.a libs/MLX42/build/libmlx42.a \
+            -I./includes -I./libs/MLX42/include/MLX42 -I./libs/libft \
+            $PRELOAD_FLAGS \
+            -O3 \
+            -s USE_GLFW=3 \
+            -s WASM=1 \
+            -o out/index.html
+
+      - name: 4. Inject Map Argument
+        run: |
+          JS_FILE="out/index.js"
           
           MAP_ARG="/maps/vine_maze.cub"
           
