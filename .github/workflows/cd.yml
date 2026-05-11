@@ -30,7 +30,7 @@ jobs:
       - name: 2. Compile libft
         run: |
           cd libs/libft
-          emmake make
+          make CC=emcc AR=emar
 
       - name: 3. Compile Cub3D Sources to WebAssembly
         run: |
@@ -40,9 +40,13 @@ jobs:
           
           mkdir -p out
 
-          emcc src/*.c \
+          SRC_FILES=$(find src -name "*.c")
+
+          emcc $SRC_FILES \
             libs/libft/libft.a libs/MLX42/build/libmlx42.a \
-            -I./includes -I./libs/MLX42/include -I./libs/libft/includes \
+            -I./includes \
+            -I./libs/MLX42/include \
+            -I./libs/libft/includes \
             $PRELOAD_FLAGS \
             -O3 \
             -s USE_GLFW=3 \
